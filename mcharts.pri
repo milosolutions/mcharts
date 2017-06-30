@@ -1,0 +1,1 @@
+RESOURCES += $$PWD/milocharts.qrc

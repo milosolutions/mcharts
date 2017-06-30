@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Chart.qml</file>
+        <file>Chart.js</file>
+        <file>MChart.qml</file>
+    </qresource>
+</RCC>

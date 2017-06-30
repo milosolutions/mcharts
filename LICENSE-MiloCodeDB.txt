@@ -1,0 +1,21 @@
+Milo Code Database license
+Version 1, August 2016
+
+Copyright (C) 2016 Milo Solutions.
+Everyone is permitted to copy and distribute verbatim copies of this license
+document, but changing it is allowed only to Milo employees.
+
+Code coming from Milo Code Database projects is marked by a custom copyright
+header. This code is bound by the following license agreement. All the code
+which does not contain Milo Code DB copyright header does not fall under this
+license and is fully yours. Files which do not contain Milo Code DB copyright
+header were written specifically for this project and have not been shared with
+any other party within or without Milo.
+
+Milo Code Database is a collection of useful code snippets often reused within
+Milo Solutions. As such, Milo Code Database code is present in many projects
+done by Milo Solutions and does not constitute a copyright infridgement,
+nor does it breach any NDA agreements.
+
+You are entitled to do anything you please with this code, just as with the
+rest of the code you bought.
