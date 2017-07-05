@@ -1,17 +1,26 @@
 /*******************************************************************************
-  Copyright (C) 2016 Milo Solutions
-  Contact: https://www.milosolutions.com
+Copyright (C) 2016 Milo Solutions
+Contact: https://www.milosolutions.com
 
-  This file is part of Milo Code Database, which is a collection of useful code
-  snippets often reused within Milo Solutions. As such, this code is present in
-  many projects done by Milo Solutions and does not constitute a copyright
-  infridgement.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-  You are entitled to do anything you please with this code, just as with the
-  rest of code you bought. Files not containing this notice were written
-  specifically for this project and have not been shared with any other party
-  within or without Milo.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 *******************************************************************************/
+
 
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>

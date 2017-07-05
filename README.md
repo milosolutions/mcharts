@@ -13,3 +13,7 @@ MiloChart implements some simple yet meaningful and eye friendly charts to displ
 3. Compile and enjoy.
 
 For example usage, see main.cpp file. This project is fully documented - please check doxygen docs or see the comments directly in the source file(s).
+
+# License # {#license}
+
+This project is licensed under the MIT License - see the LICENSE-MiloCodeDB.txt file for details

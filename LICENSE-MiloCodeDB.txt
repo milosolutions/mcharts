@@ -1,21 +1,23 @@
 Milo Code Database license
 Version 1, August 2016
 
-Copyright (C) 2016 Milo Solutions.
-Everyone is permitted to copy and distribute verbatim copies of this license
-document, but changing it is allowed only to Milo employees.
+Copyright (C) 2016 Milo Solutions
+Contact: https://www.milosolutions.com
 
-Code coming from Milo Code Database projects is marked by a custom copyright
-header. This code is bound by the following license agreement. All the code
-which does not contain Milo Code DB copyright header does not fall under this
-license and is fully yours. Files which do not contain Milo Code DB copyright
-header were written specifically for this project and have not been shared with
-any other party within or without Milo.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Milo Code Database is a collection of useful code snippets often reused within
-Milo Solutions. As such, Milo Code Database code is present in many projects
-done by Milo Solutions and does not constitute a copyright infridgement,
-nor does it breach any NDA agreements.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-You are entitled to do anything you please with this code, just as with the
-rest of the code you bought.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
