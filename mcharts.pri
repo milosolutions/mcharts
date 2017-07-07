@@ -1,1 +1,1 @@
-RESOURCES += $$PWD/milocharts.qrc
+RESOURCES += $$PWD/mcharts.qrc
