@@ -2,11 +2,11 @@
 
 Milo Code DB main ([online](https://qtdocs.milosolutions.com/milo-code-db/main/) | [offline](\ref milodatabasemain))
 
-MiloChart implements some simple yet meaningful and eye friendly charts to display data. It's based on [QChart.js](https://github.com/jwintz/qchart.js): QML Bindings for Chart.js.
+MChart implements some simple yet meaningful and eye friendly charts to display data. It's based on [QChart.js](https://github.com/jwintz/qchart.js): QML Bindings for Chart.js.
 
 **How to use:**
 
-1. Add milocharts.pri into your project.
+1. Add mcharts.pri into your project.
 
 2. Prepare some class that will provide data for MiloChart. For more information you can look at example project.
 
