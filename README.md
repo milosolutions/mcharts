@@ -1,4 +1,4 @@
-\anchor milodatabaseqmlcharts
+\anchor MCharts
 
 Milo Code DB main ([online](https://qtdocs.milosolutions.com/milo-code-db/main/) | [offline](\ref milodatabasemain))
 

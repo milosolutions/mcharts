@@ -5,9 +5,9 @@
 
 DOXYFILE_ENCODING = UTF-8
 
-PROJECT_NAME = MiloCharts
+PROJECT_NAME = MCharts
 PROJECT_NUMBER = 0.0.1
-PROJECT_BRIEF = "MiloCharts implements some simple yet meaningful and eye friendly charts to display data in Milo projects"
+PROJECT_BRIEF = "MCharts implements some simple yet meaningful and eye friendly charts to display data in Milo projects"
 
 OUTPUT_DIRECTORY = doc/
 
@@ -24,7 +24,7 @@ EXTRACT_STATIC = YES
 
 DISTRIBUTE_GROUP_DOC = YES
 
-GENERATE_TAGFILE = milocharts.doxytag
+GENERATE_TAGFILE = mcharts.doxytag
 GENERATE_HTML = YES
 GENERATE_LATEX = NO
 GENERATE_RTF = NO
@@ -50,5 +50,5 @@ EXTERNAL_PAGES = YES
 
 HAVE_DOT = NO
 
-TAGFILES = ../../../../milocodedatabase.doxytag=../../../../../../doc/html
+TAGFILES = ../../../../../mcdb-installer.doxytag=../../../../../doc/html
 
