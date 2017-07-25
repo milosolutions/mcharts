@@ -26,7 +26,7 @@ import QtQuick 2.7
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 
-import "Chart.js" as Charts
+import "../Chart.js" as Charts
 
 Window {
     visible: true

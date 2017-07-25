@@ -4,7 +4,7 @@ QT += qml quick
 CONFIG += c++11
 
 # include MiloCharts
-include(../milocharts.pri)
+include(../mcharts.pri)
 
 SOURCES += main.cpp \
     dataprovider.cpp
