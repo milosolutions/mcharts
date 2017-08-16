@@ -15,7 +15,7 @@ body {
 .tabs, .tabs2, .tabs3 {
   background: #444444;
   font-size: 13px;
-  /*background-image: url('https://qtdocs.milosolutions.com/img/tab_m.png');*/
+  /*background-image: url('https://docs.milosolutions.com/img/tab_m.png');*/
 }
 #top *{
 	font-weight:normal;	
@@ -24,21 +24,21 @@ body {
   line-height: 36px;
   li {
     background: #444444;
-    /*background-image: url('https://qtdocs.milosolutions.com/img/tab_m.png'); */
+    /*background-image: url('https://docs.milosolutions.com/img/tab_m.png'); */
   }
   a {
-    background-image: url('https://qtdocs.milosolutions.com/img/separator.png');
+    background-image: url('https://docs.milosolutions.com/img/separator.png');
     color: #FFF;
     text-shadow: 0px 1px 0px rgba(27, 27, 29, 0.9);
     &:hover {
       background: #303030;
-      /*background-image: url('https://qtdocs.milosolutions.com/img/tab_m.png'); */
+      /*background-image: url('https://docs.milosolutions.com/img/tab_m.png'); */
       color: #ffcc00;
     }
   }
   li.current a {
     background: #303030;
-    /*background-image: url('https://qtdocs.milosolutions.com/img/tab_m.png');*/
+    /*background-image: url('https://docs.milosolutions.com/img/tab_m.png');*/
     /*color: #F8AA2D;*/
     color: #ffcc00;
     border-right: 1px solid #000;
@@ -266,7 +266,7 @@ hr {
   border-right: 1px solid #A8A89D;
   color: #21211F;
   background-color: #E8E8D9;
-  background-image: url('https://qtdocs.milosolutions.com/img/nav_m.png');
+  background-image: url('https://docs.milosolutions.com/img/nav_m.png');
 }
 
 .memdoc, dl.reflist dd {
@@ -360,7 +360,7 @@ table {
     }
   }
   th {
-    background-image: url('https://qtdocs.milosolutions.com/img/nav_m.png');
+    background-image: url('https://docs.milosolutions.com/img/nav_m.png');
     background-color: #E8E8D9;
     color: #21211F;
     border-bottom: 1px solid #A8A89D;
@@ -369,13 +369,13 @@ table {
 
 .tabsearch {
   background: #444444;
-  /*background-image: url('https://qtdocs.milosolutions.com/img/tab_m.png');*/
+  /*background-image: url('https://docs.milosolutions.com/img/tab_m.png');*/
 }
 
 .navpath ul {
   color: #7D7D75;
   border: solid 1px #C2C2B6;
-  background-image: url('https://qtdocs.milosolutions.com/img/tab_m.png');
+  background-image: url('https://docs.milosolutions.com/img/tab_m.png');
 }
 
 /*custom list style dot*/
@@ -409,7 +409,7 @@ table {
 }
 
 div.header {
-  /*background-image:url('https://qtdocs.milosolutions.com/img/nav_hm.png');*/
+  /*background-image:url('https://docs.milosolutions.com/img/nav_hm.png');*/
   background: none;
   border-bottom: none;
 }
@@ -461,7 +461,7 @@ div.toc {
   width: calc(25% - 20px);
   float: left;
   li {
-    background: url("https://qtdocs.milosolutions.com/img/goto.png") no-repeat scroll 0 5px transparent;
+    background: url("https://docs.milosolutions.com/img/goto.png") no-repeat scroll 0 5px transparent;
     font: 14px Open Sans, sans-serif;
     padding-top: 6px;
     padding-left: 20px;
