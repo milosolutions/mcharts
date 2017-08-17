@@ -6,7 +6,7 @@
 DOXYFILE_ENCODING = UTF-8
 
 PROJECT_NAME = MCharts
-PROJECT_NUMBER = 0.0.1
+PROJECT_NUMBER = 1.0
 PROJECT_BRIEF = "MCharts implements some simple yet meaningful and eye friendly charts to display data in Milo projects"
 
 OUTPUT_DIRECTORY = doc/

@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2016 Milo Solutions
+Copyright (C) 2017 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
