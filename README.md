@@ -2,6 +2,8 @@
 
 Milo Code DB main ([online](https://docs.milosolutions.com/milo-code-db/main/) | [offline](\ref milodatabasemain))
 
+[Source code](https://github.com/milosolutions/mcharts)
+
 # Getting Started
 
 MChart implements some simple yet meaningful and eye friendly charts to display data. It's based on [QChart.js](https://github.com/jwintz/qchart.js): QML Bindings for Chart.js.
