@@ -1,7 +1,7 @@
 ## Milo Solutions - doxygen conf for MiloCharts
 #
 #
-## (c) Milo Solutions, 2016
+## (c) Milo Solutions, 2017
 
 DOXYFILE_ENCODING = UTF-8
 
@@ -38,7 +38,8 @@ HTML_FILE_EXTENSION = .html
 HTML_HEADER = doc/branding/milo-doxy-header.html
 HTML_FOOTER = doc/branding/milo-doxy-footer.html
 HTML_EXTRA_STYLESHEET= doc/branding/milo-doxygen.css
-HTML_EXTRA_FILES = doc/branding/milo.js
+HTML_EXTRA_FILES = doc/branding/milo.js doc/img/QmlChartsAndroidExample.png doc/img/QmlChartsAverageTemp.png doc/img/QmlChartsExample.png doc/img/QmlChartsGoldPriceHistory.png doc/img/QmlChartsWindowsDoughnutExample.png doc/img/QmlChartsWindowsPieExample.png doc/img/QmlChartsWindowsPolarExample.png
+
 IMAGE_PATH = doc/img
 
 TAB_SIZE = 4
