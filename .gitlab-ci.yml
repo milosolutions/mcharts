@@ -4,8 +4,7 @@ build_docs:
     - doxygen $CI_PROJECT_NAME.doxyfile
     
     # move generated documentation to qtdocs/milo-code-db/$CI_PROJECT_NAME
-    - rm -rf /opt/online_docs/www/qtdocs/milo-code-db/$CI_PROJECT_NAME/
-    #- mv /opt/online_docs/www/qtdocs/milo-code-db/qml-charts /opt/online_docs/www/qtdocs/milo-code-db/$CI_PROJECT_NAME/
-    - mv doc/html /opt/online_docs/www/qtdocs/milo-code-db/$CI_PROJECT_NAME/
+    - rm -rf /opt/online_docs/www/docs_open_source/milo-code-db/$CI_PROJECT_NAME/
+    - mv doc/html /opt/online_docs/www/docs_open_source/milo-code-db/$CI_PROJECT_NAME/
   tags:
     - Docs
