@@ -109,6 +109,19 @@ Chart {
         }
     }
 
+    function updateChart() {
+        if (chartType === Charts.ChartType.BAR
+                || chartType === Charts.ChartType.RADAR) {
+            chartData = prepareBarChartData()
+        } else if (chartType === Charts.ChartType.PIE
+                   || chartType === Charts.ChartType.DOUGHNUT
+                   || chartType === Charts.ChartType.POLAR) {
+            chartData = preparePieChartData()
+        } else if (chartType === Charts.ChartType.LINE) {
+            chartData = prepareLineChartData()
+        }
+    }
+
     chartAnimationEasing: Easing.OutCubic
     chartAnimationDuration: 300
 
@@ -121,16 +134,11 @@ Chart {
         scaleFontColor: "#444444"
     })
 
-    Component.onCompleted: {
-        if (chartType === Charts.ChartType.BAR
-                || chartType === Charts.ChartType.RADAR) {
-            chartData = prepareBarChartData()
-        } else if (chartType === Charts.ChartType.PIE
-                   || chartType === Charts.ChartType.DOUGHNUT
-                   || chartType === Charts.ChartType.POLAR) {
-            chartData = preparePieChartData()
-        } else if (chartType === Charts.ChartType.LINE) {
-            chartData = prepareLineChartData()
-        }
-    }
+    onLabelsChanged: updateChart()
+    onValuesChanged: updateChart()
+    onColorChanged: updateChart()
+    onColorsChanged: updateChart()
+    onStrokeColorChanged: updateChart()
+    onPointColorChanged: updateChart()
+    onFillColorChanged: updateChart()
 }
