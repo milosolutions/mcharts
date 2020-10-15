@@ -22,9 +22,7 @@ SOFTWARE.
 *******************************************************************************/
 
 
-import QtQuick 2.0
-
-import "Chart.js" as Charts
+import QtQuick 2.9
 
 Chart {
     /*!
@@ -129,7 +127,7 @@ Chart {
         if (chartType === 'bar' || chartType === 'radar') {
             chartData = prepareBarChartData()
         } else if (chartType === 'pie' || chartType === 'doughnut'
-                   || chartType === 'polar') {
+                   || chartType === 'polarArea') {
             chartData = preparePieChartData()
         } else if (chartType === 'line') {
             chartData = prepareLineChartData()
