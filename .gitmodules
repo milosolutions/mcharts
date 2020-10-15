@@ -1,0 +1,3 @@
+[submodule "ChartJs2QML"]
+	path = ChartJs2QML
+	url = https://github.com/MichaelVoelkel/ChartJs2QML.git

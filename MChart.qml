@@ -81,15 +81,19 @@ Chart {
             return
         }
 
-        var chartData = []
+        var datasets = []
         for (var i = 0 ; i < labels.length ; ++i) {
-            chartData.push({
-                               label: labels[i],
-                               value: values[i],
-                               color: colors[i]
-                           })
+            datasets.push({
+                              label: labels[i],
+                              data: values[i],
+                              color: colors[i]
+                          })
         }
-        return chartData
+
+        return {
+            labels: labels,
+            datasets: datasets
+        }
     }
 
     /*!
@@ -109,8 +113,8 @@ Chart {
         }
     }
 
-    chartAnimationEasing: Easing.OutCubic
-    chartAnimationDuration: 300
+    //chartAnimationEasing: Easing.OutCubic
+    //chartAnimationDuration: 300
 
     chartOptions: ({
         scaleLineWidth: 2,
@@ -122,14 +126,12 @@ Chart {
     })
 
     Component.onCompleted: {
-        if (chartType === Charts.ChartType.BAR
-                || chartType === Charts.ChartType.RADAR) {
+        if (chartType === 'bar' || chartType === 'radar') {
             chartData = prepareBarChartData()
-        } else if (chartType === Charts.ChartType.PIE
-                   || chartType === Charts.ChartType.DOUGHNUT
-                   || chartType === Charts.ChartType.POLAR) {
+        } else if (chartType === 'pie' || chartType === 'doughnut'
+                   || chartType === 'polar') {
             chartData = preparePieChartData()
-        } else if (chartType === Charts.ChartType.LINE) {
+        } else if (chartType === 'line') {
             chartData = prepareLineChartData()
         }
     }
