@@ -25,6 +25,15 @@ SOFTWARE.
 import QtQuick 2.9
 
 Chart {
+    readonly property QtObject type: QtObject {
+        readonly property string bar: "bar"
+        readonly property string pie: "pie"
+        readonly property string line: "line"
+        readonly property string radar: "radar"
+        readonly property string doughnut: "doughnut"
+        readonly property string polarArea: "polarArea"
+    }
+
     /*!
      * String array used as labels in charts.
      */
