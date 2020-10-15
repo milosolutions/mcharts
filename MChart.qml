@@ -83,7 +83,7 @@ Chart {
         for (var i = 0 ; i < labels.length ; ++i) {
             datasets.push({
                               label: labels[i],
-                              data: values[i],
+                              data: values,
                               color: colors[i]
                           })
         }
