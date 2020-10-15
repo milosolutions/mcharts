@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/mcharts">
         <file>Chart.qml</file>
         <file>Chart.js</file>
         <file>MChart.qml</file>
