@@ -29,6 +29,7 @@ import QtQuick 2.15
 Chart {
   id: root
 
+  // TODO: make a singleton out of it (?)
   readonly property QtObject type: QtObject {
     readonly property string bar: "bar"
     readonly property string pie: "pie"
@@ -38,35 +39,45 @@ Chart {
     readonly property string polarArea: "polarArea"
   }
 
+  property list<MDataset> data
+
+  function labels() {
+    let result = [];
+    for (var i = 0 ; i < data.length ; ++i) {
+      result.push(data[i].name)
+    }
+    return result
+  }
+
   /*!
      * String array used as labels in charts.
      */
-  property var labels
+//  property var labels
   /*!
      * Data array used as values in charts.
      */
-  property var values
+//  property var values
   /*!
      * Color of primitives used in BAR and RADAR charts.
      */
-  property color color
+//  property color color
   /*!
      * Color arrray of primitives used in PIE, DOUGHNUT and POLAR charts.
      */
-  property var colors
+//  property var colors
   /*!
      * Color used to fill space under the line in LINE chart.
      * Default value is transparent.
      */
-  property color fillColor: "#00ffffff"
+//  property color fillColor: "#00ffffff"
   /*!
      * Color of line used in LINE chart.
      */
-  property color strokeColor
+//  property color strokeColor
   /*!
      *  Color of points used in LINE chart.
      */
-  property color pointColor
+//  property color pointColor
 
   /*!
      * Converts chart data to suitable format for Bar and RADAR charts.
@@ -84,16 +95,16 @@ Chart {
     //        }
 
     var datasets = []
-    //for (var i = 0 ; i < labels.length ; ++i) {
+    for (var i = 0 ; i < data.length ; ++i) {
     datasets.push({
-                    label: "something",
-                    data: values,
-                    backgroundColor: qmlHelpers.htmlColor(colors[0])
+                    label: data[i].name,
+                    data: data[i].values,
+                    backgroundColor: qmlHelpers.htmlColor(data[i].fillColor)
                   })
-    //}
+    }
 
     return {
-      labels: labels,
+      labels: labels(),
       datasets: datasets
     }
   }
