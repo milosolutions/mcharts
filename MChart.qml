@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2017 Milo Solutions
+Copyright (C) 2020 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,124 +22,146 @@ SOFTWARE.
 *******************************************************************************/
 
 
-import QtQuick 2.9
+import QtQuick 2.15
+
+//import "mcharts"
 
 Chart {
-    readonly property QtObject type: QtObject {
-        readonly property string bar: "bar"
-        readonly property string pie: "pie"
-        readonly property string line: "line"
-        readonly property string radar: "radar"
-        readonly property string doughnut: "doughnut"
-        readonly property string polarArea: "polarArea"
-    }
+  id: root
 
-    /*!
+  readonly property QtObject type: QtObject {
+    readonly property string bar: "bar"
+    readonly property string pie: "pie"
+    readonly property string line: "line"
+    readonly property string radar: "radar"
+    readonly property string doughnut: "doughnut"
+    readonly property string polarArea: "polarArea"
+  }
+
+  /*!
      * String array used as labels in charts.
      */
-    property var labels
-    /*!
+  property var labels
+  /*!
      * Data array used as values in charts.
      */
-    property var values
-    /*!
+  property var values
+  /*!
      * Color of primitives used in BAR and RADAR charts.
      */
-    property color color
-    /*!
+  property color color
+  /*!
      * Color arrray of primitives used in PIE, DOUGHNUT and POLAR charts.
      */
-    property var colors
-    /*!
+  property var colors
+  /*!
      * Color used to fill space under the line in LINE chart.
      * Default value is transparent.
      */
-    property color fillColor: "#00ffffff"
-    /*!
+  property color fillColor: "#00ffffff"
+  /*!
      * Color of line used in LINE chart.
      */
-    property color strokeColor
-    /*!
+  property color strokeColor
+  /*!
      *  Color of points used in LINE chart.
      */
-    property color pointColor
+  property color pointColor
 
-    /*!
+  /*!
      * Converts chart data to suitable format for Bar and RADAR charts.
      */
-    function prepareBarChartData() {
-        return {
-            labels: labels,
-            datasets: [
-                {
-                    fillColor: color,
-                    data: values
-                }
-            ]
-        }
-    }
+  function prepareBarChartData() {
+    //        return preparePieChartData()
+    //        return {
+    //            labels: labels,
+    //            datasets: [
+    //                {
+    //                    backgroundColor: color,
+    //                    data: values
+    //                }
+    //            ]
+    //        }
 
-    /*!
+    var datasets = []
+    //for (var i = 0 ; i < labels.length ; ++i) {
+    datasets.push({
+                    label: "something",
+                    data: values,
+                    backgroundColor: qmlHelpers.htmlColor(colors[0])
+                  })
+    //}
+
+    return {
+      labels: labels,
+      datasets: datasets
+    }
+  }
+
+  /*!
      * Converts chart data to suitable format for PIE, DOUGHNUT and POLAR charts.
      */
-    function preparePieChartData() {
-        if (labels.length !== values.length || labels.length !== colors.length) {
-            console.exception("To use Pie chart labels/values/colors should have the same size")
-            return
-        }
-
-        var datasets = []
-        for (var i = 0 ; i < labels.length ; ++i) {
-            datasets.push({
-                              label: labels[i],
-                              data: values,
-                              color: colors[i]
-                          })
-        }
-
-        return {
-            labels: labels,
-            datasets: datasets
-        }
+  function preparePieChartData() {
+    if (labels.length !== values.length || labels.length !== colors.length) {
+      console.exception("To use Pie chart labels/values/colors should have the same size")
+      return
     }
 
-    /*!
+    var datasets = []
+    for (var i = 0 ; i < labels.length ; ++i) {
+      datasets.push({
+                      label: labels[i],
+                      data: values,
+                      backgroundColor: qmlHelpers.htmlColor(colors[i])
+                    })
+    }
+
+    return {
+      labels: labels,
+      datasets: datasets
+    }
+  }
+
+  /*!
      * Converts chart data to suitable format for LINE chart.
      */
-    function prepareLineChartData() {
-        return {
-            labels: labels,
-            datasets: [
-                {
-                    data: values,
-                    fillColor: fillColor,
-                    strokeColor: strokeColor,
-                    pointColor: pointColor
-                }
-            ]
+  function prepareLineChartData() {
+    return {
+      labels: labels,
+      datasets: [
+        {
+          label: "something",
+          data: values,
+          borderColor: qmlHelpers.htmlColor(strokeColor),
+          backgroundColor: qmlHelpers.htmlColor(fillColor),
+          pointBackgroundColor: qmlHelpers.htmlColor(pointColor)
         }
+      ]
     }
 
-    //chartAnimationEasing: Easing.OutCubic
-    //chartAnimationDuration: 300
+    //      prepareBarChartData()
+  }
 
-    chartOptions: ({
-        scaleLineWidth: 2,
-        barShowStroke: false,
-        scaleFontSize: 20,
-        scaleFontFamily: "sans-serif",
-        barValueSpacing: 10,
-        scaleFontColor: "#444444"
-    })
+  //chartAnimationEasing: Easing.OutCubic
+  //chartAnimationDuration: 300
 
-    Component.onCompleted: {
-        if (chartType === 'bar' || chartType === 'radar') {
-            chartData = prepareBarChartData()
-        } else if (chartType === 'pie' || chartType === 'doughnut'
-                   || chartType === 'polarArea') {
-            chartData = preparePieChartData()
-        } else if (chartType === 'line') {
-            chartData = prepareLineChartData()
-        }
+  chartOptions: ({
+                   scaleLineWidth: 2,
+                   barShowStroke: false,
+                   scaleFontSize: 20,
+                   scaleFontFamily: "sans-serif",
+                   barValueSpacing: 10,
+                   scaleFontColor: "#444444"
+                 })
+
+  Component.onCompleted: {
+    if (chartType === type.bar || chartType === type.radar) {
+      chartData = prepareBarChartData()
+    } else if (chartType === type.pie || chartType === type.doughnut
+               || chartType === type.polarArea) {
+      chartData = preparePieChartData()
+    } else if (chartType === type.line) {
+      chartData = prepareLineChartData()
     }
+  }
 }
