@@ -72,20 +72,21 @@ Chart {
 
   property list<MDataset> data
 
-  function labels() {
-    let result = [];
-    for (let i = 0 ; i < data.length ; ++i) {
-      result.push(data[i].name)
-    }
-    return result
-  }
+  property var labels: []
 
   /*!
      * Converts chart data to suitable format for Bar and RADAR charts.
      */
   function prepareChartData() {
-    var datasets = []
+    let labelsCount = labels.length
+    let datasets = []
     for (let i = 0 ; i < data.length ; ++i) {
+      let valuesCount = data[i].values.length
+      if (labelsCount !== valuesCount) {
+        console.error("Number of labels", labelsCount,
+                      "does not match number of values", valuesCount)
+      }
+
       datasets.push({
                       label: data[i].name,
                       data: data[i].values,
@@ -94,7 +95,7 @@ Chart {
     }
 
     chartData = {
-      labels: labels(),
+      labels: labels,
       datasets: datasets
     }
   }
