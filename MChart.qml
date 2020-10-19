@@ -29,132 +29,75 @@ import QtQuick 2.15
 Chart {
   id: root
 
-  // TODO: make a singleton out of it (?)
-  readonly property QtObject type: QtObject {
-    readonly property string bar: "bar"
-    readonly property string pie: "pie"
-    readonly property string line: "line"
-    readonly property string radar: "radar"
-    readonly property string doughnut: "doughnut"
-    readonly property string polarArea: "polarArea"
+  enum Type {
+    Invalid,
+    Bar,
+    Pie,
+    Line,
+    Radar,
+    Doughnut,
+    PolarArea
+  }
+
+  property int type: MChart.Type.Invalid
+
+  onTypeChanged: {
+    switch (type) {
+    case MChart.Type.Invalid:
+      console.log("Chart type is unsupported")
+      chartType = ''
+      break
+    case MChart.Type.Bar:
+      chartType = 'bar'
+      break
+    case MChart.Type.Pie:
+      chartType = 'pie'
+      break
+    case MChart.Type.Line:
+      chartType = 'line'
+      break
+    case MChart.Type.Radar:
+      chartType = 'radar'
+      break
+    case MChart.Type.Doughnut:
+      chartType = 'doughnut'
+      break
+    case MChart.Type.PolarArea:
+      chartType = 'polarArea'
+      break
+    }
+
+    prepareChartData()
   }
 
   property list<MDataset> data
 
   function labels() {
     let result = [];
-    for (var i = 0 ; i < data.length ; ++i) {
+    for (let i = 0 ; i < data.length ; ++i) {
       result.push(data[i].name)
     }
     return result
   }
 
   /*!
-     * String array used as labels in charts.
-     */
-//  property var labels
-  /*!
-     * Data array used as values in charts.
-     */
-//  property var values
-  /*!
-     * Color of primitives used in BAR and RADAR charts.
-     */
-//  property color color
-  /*!
-     * Color arrray of primitives used in PIE, DOUGHNUT and POLAR charts.
-     */
-//  property var colors
-  /*!
-     * Color used to fill space under the line in LINE chart.
-     * Default value is transparent.
-     */
-//  property color fillColor: "#00ffffff"
-  /*!
-     * Color of line used in LINE chart.
-     */
-//  property color strokeColor
-  /*!
-     *  Color of points used in LINE chart.
-     */
-//  property color pointColor
-
-  /*!
      * Converts chart data to suitable format for Bar and RADAR charts.
      */
-  function prepareBarChartData() {
-    //        return preparePieChartData()
-    //        return {
-    //            labels: labels,
-    //            datasets: [
-    //                {
-    //                    backgroundColor: color,
-    //                    data: values
-    //                }
-    //            ]
-    //        }
-
+  function prepareChartData() {
     var datasets = []
-    for (var i = 0 ; i < data.length ; ++i) {
-    datasets.push({
-                    label: data[i].name,
-                    data: data[i].values,
-                    backgroundColor: qmlHelpers.htmlColor(data[i].fillColor)
-                  })
+    for (let i = 0 ; i < data.length ; ++i) {
+      datasets.push({
+                      label: data[i].name,
+                      data: data[i].values,
+                      backgroundColor: qmlHelpers.htmlColor(data[i].fillColor)
+                    })
     }
 
-    return {
+    chartData = {
       labels: labels(),
       datasets: datasets
     }
   }
-
-  /*!
-     * Converts chart data to suitable format for PIE, DOUGHNUT and POLAR charts.
-     */
-  function preparePieChartData() {
-    if (labels.length !== values.length || labels.length !== colors.length) {
-      console.exception("To use Pie chart labels/values/colors should have the same size")
-      return
-    }
-
-    var datasets = []
-    for (var i = 0 ; i < labels.length ; ++i) {
-      datasets.push({
-                      label: labels[i],
-                      data: values,
-                      backgroundColor: qmlHelpers.htmlColor(colors[i])
-                    })
-    }
-
-    return {
-      labels: labels,
-      datasets: datasets
-    }
-  }
-
-  /*!
-     * Converts chart data to suitable format for LINE chart.
-     */
-  function prepareLineChartData() {
-    return {
-      labels: labels,
-      datasets: [
-        {
-          label: "something",
-          data: values,
-          borderColor: qmlHelpers.htmlColor(strokeColor),
-          backgroundColor: qmlHelpers.htmlColor(fillColor),
-          pointBackgroundColor: qmlHelpers.htmlColor(pointColor)
-        }
-      ]
-    }
-
-    //      prepareBarChartData()
-  }
-
-  //chartAnimationEasing: Easing.OutCubic
-  //chartAnimationDuration: 300
 
   chartOptions: ({
                    scaleLineWidth: 2,
@@ -165,14 +108,5 @@ Chart {
                    scaleFontColor: "#444444"
                  })
 
-  Component.onCompleted: {
-    if (chartType === type.bar || chartType === type.radar) {
-      chartData = prepareBarChartData()
-    } else if (chartType === type.pie || chartType === type.doughnut
-               || chartType === type.polarArea) {
-      chartData = preparePieChartData()
-    } else if (chartType === type.line) {
-      chartData = prepareLineChartData()
-    }
-  }
+  Component.onCompleted: prepareChartData()
 }
