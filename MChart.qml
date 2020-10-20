@@ -43,10 +43,6 @@ Chart {
 
   onTypeChanged: {
     switch (type) {
-    case MChart.Type.Invalid:
-      console.log("Chart type is unsupported")
-      chartType = ''
-      break
     case MChart.Type.Bar:
       chartType = 'bar'
       break
@@ -65,13 +61,21 @@ Chart {
     case MChart.Type.PolarArea:
       chartType = 'polarArea'
       break
+    case MChart.Type.Invalid:
+    default:
+      console.log("Chart type is unsupported")
+      chartType = ''
+      break
     }
 
     prepareChartData()
   }
 
   property list<MDataset> data
-
+  property MChartOptions options: MChartOptions {
+    isLinear: type === MChart.Type.Bar || type === MChart.Type.Line
+    hasScale: type !== MChart.Type.Pie && type !== MChart.Type.Doughnut
+  }
   property var labels: []
 
   /*!
@@ -90,7 +94,9 @@ Chart {
       datasets.push({
                       label: data[i].name,
                       data: data[i].values,
-                      backgroundColor: qmlHelpers.htmlColor(data[i].fillColor)
+                      backgroundColor: data[i].getFillColor(),
+                      borderColor: data[i].getLineColor(),
+                      pointBackgroundColor: data[i].getPointColor()
                     })
     }
 
@@ -98,16 +104,11 @@ Chart {
       labels: labels,
       datasets: datasets
     }
+
+    //chartOptions = options.options
   }
 
-  chartOptions: ({
-                   scaleLineWidth: 2,
-                   barShowStroke: false,
-                   scaleFontSize: 20,
-                   scaleFontFamily: "sans-serif",
-                   barValueSpacing: 10,
-                   scaleFontColor: "#444444"
-                 })
+  chartOptions: options.options
 
   Component.onCompleted: prepareChartData()
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2017 Milo Solutions
+Copyright (C) 2020 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,100 +21,212 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
-
-import QtQuick 2.7
+import QtQuick 2.15
 import QtQuick.Window 2.2
 import QtQuick.Layouts 1.3
 
-import "qrc:Chart.js" as Charts
+import "mcharts"
 
 Window {
-    visible: true
-    width: Screen.width
-    height: Screen.height
+  visible: true
+  width: 1000
+  height: 800
 
-    GridLayout {
-          anchors.fill: parent
-          columns: Screen.width > Screen.height ? 3 : 2
+  GridLayout {
+    anchors.fill: parent
+    columns: 3
 
-          MChart {
-              id: chartBar1
+    MChart {
+      id: chart1
 
-              Layout.fillWidth: true
-              Layout.fillHeight: true
+      Layout.fillWidth: true
+      Layout.fillHeight: true
 
-              chartType: Charts.ChartType.BAR
+      type: MChart.Type.Bar
+      labels: dataProvider.getLabels()
 
-              labels: dataProvider.getLabels()
-              values: dataProvider.getValues()
-              color: "#72c4e8"
+      data: [
+        // Each bar in different color
+        MDataset {
+          name: "Set 1"
+          values: [1, 2, 2.1, 0.1, 0.7, 1.1, 1.4]
+          fillColors: dataProvider.getColors()
+          lineColors: dataProvider.getColors()
+          pointColors: dataProvider.getColors()
+        },
+
+        // Each bar in the same color
+        MDataset {
+          name: "Set 2"
+          values: dataProvider.getValues2()
+          fillColor: dataProvider.getColors()[3]
+          lineColor: dataProvider.getColors()[4]
+          pointColor: dataProvider.getColors()[5]
+        }
+      ]
+    }
+
+    MChart {
+      id: chart2
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Pie
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getValues()
+          fillColor: dataProvider.getColors()[0]
+          lineColor: dataProvider.getColors()[1]
+          pointColor: dataProvider.getColors()[2]
+        },
+
+        MDataset {
+          name: "Set 2"
+          values: dataProvider.getValues2()
+          fillColor: dataProvider.getColors()[3]
+          lineColor: dataProvider.getColors()[4]
+          pointColor: dataProvider.getColors()[5]
+        }
+      ]
+    }
+
+    MChart {
+      id: chart3
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Line
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 3"
+          values: dataProvider.getValues()
+          fillColor: dataProvider.getColors()[2]
+          lineColor: dataProvider.getColors()[1]
+          pointColor: dataProvider.getColors()[0]
+        },
+
+        MDataset {
+          name: "Set 4"
+          values: dataProvider.getValues2()
+          fillColor: dataProvider.getColors()[5]
+          lineColor: dataProvider.getColors()[4]
+          pointColor: dataProvider.getColors()[3]
+        }
+      ]
+    }
+
+    MChart {
+      id: chart4
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Radar
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getValues()
+          fillColor: dataProvider.getColors()[0]
+          lineColor: dataProvider.getColors()[1]
+          pointColor: dataProvider.getColors()[2]
+        },
+
+        MDataset {
+          name: "Set 2"
+          values: dataProvider.getValues2()
+          fillColor: dataProvider.getColors()[3]
+          lineColor: dataProvider.getColors()[4]
+          pointColor: dataProvider.getColors()[5]
+        }
+      ]
+
+      // Custom axis settings:
+      chartOptions: {
+        return {
+          scale: {
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 5
+            }
           }
-
-          MChart {
-              id: chartBar2
-
-              Layout.fillWidth: true
-              Layout.fillHeight: true
-
-              chartType: Charts.ChartType.PIE
-
-              labels: dataProvider.getLabels()
-              values: dataProvider.getValues()
-              colors: dataProvider.getColors()
-          }
-
-          MChart {
-              id: chartBar3
-
-              Layout.fillWidth: true
-              Layout.fillHeight: true
-
-              chartType: Charts.ChartType.LINE
-
-              labels: dataProvider.getLabels()
-              values: dataProvider.getValues()
-              strokeColor: "#72c4e8"
-              pointColor: "#ffffff"
-
-          }
-
-          MChart {
-              id: chartBar4
-
-              Layout.fillWidth: true
-              Layout.fillHeight: true
-
-              chartType: Charts.ChartType.RADAR
-
-              labels: dataProvider.getLabels()
-              values: dataProvider.getValues()
-              color: "#8072c4e8"
-          }
-
-          MChart {
-              id: chartBar5
-
-              Layout.fillWidth: true
-              Layout.fillHeight: true
-
-              chartType: Charts.ChartType.DOUGHNUT
-
-              labels: dataProvider.getLabels()
-              values: dataProvider.getValues()
-              colors: dataProvider.getColors()
-          }
-
-          MChart {
-              id: chartBar6
-
-              Layout.fillWidth: true
-              Layout.fillHeight: true
-
-              chartType: Charts.ChartType.POLAR
-
-              labels: dataProvider.getLabels()
-              values: dataProvider.getValues()
-              colors: dataProvider.getColors()
-          }
+        }
       }
+    }
+
+    MChart {
+      id: chart5
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Doughnut
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getValues()
+          fillColor: dataProvider.getColors()[0]
+          lineColor: dataProvider.getColors()[1]
+          pointColor: dataProvider.getColors()[2]
+        },
+
+        MDataset {
+          name: "Set 2"
+          values: dataProvider.getValues2()
+          fillColor: dataProvider.getColors()[3]
+          lineColor: dataProvider.getColors()[4]
+          pointColor: dataProvider.getColors()[5]
+        }
+      ]
+    }
+
+    MChart {
+      id: chart6
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.PolarArea
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getValues()
+          fillColor: dataProvider.getColors()[0]
+          lineColor: dataProvider.getColors()[1]
+          pointColor: dataProvider.getColors()[2]
+        },
+
+        MDataset {
+          name: "Set 2"
+          values: dataProvider.getValues2()
+          fillColor: dataProvider.getColors()[3]
+          lineColor: dataProvider.getColors()[4]
+          pointColor: dataProvider.getColors()[5]
+        }
+      ]
+
+      chartOptions: {
+        return {
+          scale: {
+            ticks: {
+              suggestedMin: 0,
+              suggestedMax: 5
+            }
+          }
+        }
+      }
+    }
+  }
 }

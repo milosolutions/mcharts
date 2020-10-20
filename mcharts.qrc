@@ -4,5 +4,6 @@
         <file alias="Chart.qml">ChartJs2QML/Chart.qml</file>
         <file alias="Chart.js">ChartJs2QML/Chart.js</file>
         <file>MDataset.qml</file>
+        <file>MChartOptions.qml</file>
     </qresource>
 </RCC>
