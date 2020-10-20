@@ -79,17 +79,17 @@ Window {
         MDataset {
           name: "Set 1"
           values: dataProvider.getValues()
-          fillColor: dataProvider.getColors()[0]
-          lineColor: dataProvider.getColors()[1]
-          pointColor: dataProvider.getColors()[2]
+          fillColors: dataProvider.getColors()
+          lineColors: dataProvider.getColors()
+          pointColors: dataProvider.getColors()
         },
 
         MDataset {
           name: "Set 2"
           values: dataProvider.getValues2()
-          fillColor: dataProvider.getColors()[3]
-          lineColor: dataProvider.getColors()[4]
-          pointColor: dataProvider.getColors()[5]
+          fillColors: dataProvider.getColors2()
+          lineColors: dataProvider.getColors2()
+          pointColors: dataProvider.getColors2()
         }
       ]
     }
@@ -148,18 +148,6 @@ Window {
           pointColor: dataProvider.getColors()[5]
         }
       ]
-
-      // Custom axis settings:
-      chartOptions: {
-        return {
-          scale: {
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 5
-            }
-          }
-        }
-      }
     }
 
     MChart {
@@ -175,7 +163,7 @@ Window {
         MDataset {
           name: "Set 1"
           values: dataProvider.getValues()
-          fillColor: dataProvider.getColors()[0]
+          fillColors: dataProvider.getColors2()
           lineColor: dataProvider.getColors()[1]
           pointColor: dataProvider.getColors()[2]
         },
@@ -183,7 +171,7 @@ Window {
         MDataset {
           name: "Set 2"
           values: dataProvider.getValues2()
-          fillColor: dataProvider.getColors()[3]
+          fillColors: dataProvider.getColors()
           lineColor: dataProvider.getColors()[4]
           pointColor: dataProvider.getColors()[5]
         }
@@ -216,17 +204,7 @@ Window {
           pointColor: dataProvider.getColors()[5]
         }
       ]
-
-      chartOptions: {
-        return {
-          scale: {
-            ticks: {
-              suggestedMin: 0,
-              suggestedMax: 5
-            }
-          }
-        }
-      }
     }
   }
 }
+
