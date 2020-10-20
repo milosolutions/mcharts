@@ -5,40 +5,61 @@ QtObject {
   property bool isLinear: true
   readonly property string _scalesString: isLinear? '"scales"' : '"scale"'
 
-  property int scaleLineWidth: 1
-  property font scaleFont: {
-    pixelSize: 30
-    family: "sans-serif"
-  }
-  property color scaleFontColor: "#000000"
+  property var min: 0
+  property var max: 1
 
-  property font legendFont: {
-    pixelSize: 30
+  property int scaleLineWidth: 1
+  property font scaleFont
+  scaleFont {
+    pixelSize: 14
     family: "sans-serif"
   }
-  property color legendFontColor: "#ff1111"
+
+  property color scaleFontColor: "#0a0a0a"
+
+  property font legendFont
+  legendFont {
+    pixelSize: 16
+    family: "sans-serif"
+  }
+  property color legendFontColor: "#505050"
 
   property var radialScales: {
     "angleLines": {
-      display: false
+      display: true
     },
     "ticks": {
-      suggestedMin: 0,
-      suggestedMax: 5
+      suggestedMin: min,
+      suggestedMax: max,
+      fontSize: scaleFont.pointSize,
+      fontFamily: scaleFont.family,
+      fontColor: qmlHelpers.htmlColor(scaleFontColor)
     }
   }
 
   property var linearScales: {
     "xAxes": [{
                 "ticks": {
-                  min: 0,
-                  max: 7
+                  min: min,
+                  max: max,
+                  fontSize: scaleFont.pointSize,
+                  fontFamily: scaleFont.family,
+                  fontColor: qmlHelpers.htmlColor(scaleFontColor)
+                },
+                "gridLines": {
+                  lineWidth: scaleLineWidth
                 }
               }],
     "yAxes": [{
                 "ticks": {
-                  min: 0,
-                  max: 7
+                  min: min,
+                  max: max,
+                  fontSize: scaleFont.pointSize,
+                  fontFamily: scaleFont.family,
+                  fontColor: qmlHelpers.htmlColor(scaleFontColor)
+                },
+                "gridLines": {
+                  lineWidth: scaleLineWidth
                 }
               }],
   }
@@ -52,15 +73,31 @@ QtObject {
     }
   }
 
+  // general animation time
+  property var animationOptions: {
+    duration: 0
+  }
+
+  // duration of animations when hovering an item
+  property var hoverOptions: {
+    animationDuration: 0
+  }
+
+  // animation duration after a resize
+  property int responsiveAnimationDuration: 0
+
   property string _optionsString:
       "{" +
       (hasScale? (_scalesString + ": "
-                 + JSON.stringify((isLinear? linearScales : radialScales)) + ",")
-              : "")
-      + '"legend": ' + JSON.stringify(legend)
+                  + JSON.stringify((isLinear? linearScales : radialScales)) + ",")
+               : "")
+      + '"legend": ' + JSON.stringify(legend) + ","
+      + '"animation": ' + JSON.stringify(animationOptions) + ","
+      + '"hover": ' + JSON.stringify(hoverOptions) + ","
+      + '"responsiveAnimationDuration": ' + responsiveAnimationDuration
       + "}"
 
   property var options: JSON.parse(_optionsString)
 
-  on_OptionsStringChanged: console.log("Opts:", _optionsString)
+  //on_OptionsStringChanged: console.log("Opts:", _optionsString)
 }

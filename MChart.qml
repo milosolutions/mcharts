@@ -84,12 +84,17 @@ Chart {
   function prepareChartData() {
     let labelsCount = labels.length
     let datasets = []
+    let min = 0
+    let max = 0
     for (let i = 0 ; i < data.length ; ++i) {
       let valuesCount = data[i].values.length
       if (labelsCount !== valuesCount) {
         console.error("Number of labels", labelsCount,
                       "does not match number of values", valuesCount)
       }
+
+      min = Math.min(min, data[i].suggestedMin)
+      max = Math.max(max, data[i].suggestedMax)
 
       datasets.push({
                       label: data[i].name,
@@ -105,7 +110,8 @@ Chart {
       datasets: datasets
     }
 
-    //chartOptions = options.options
+    options.min = Math.floor(min)
+    options.max = Math.ceil(max)
   }
 
   chartOptions: options.options

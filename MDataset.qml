@@ -10,6 +10,9 @@ QtObject {
   property var lineColors
   property var pointColors
 
+  property real suggestedMin: 0
+  property real suggestedMax: 1
+
   function getColor(single, list) {
     if (list !== undefined && list.length > 0) {
       let htmlColors = []
@@ -33,5 +36,24 @@ QtObject {
 
   function getPointColor() {
     return getColor(pointColor, pointColors)
+  }
+
+  onValuesChanged: {
+    if (values === undefined) {
+      suggestedMax = 1
+      suggestedMin = 0
+      return;
+    }
+
+    let min = 0
+    let max = 0
+    for (let i = 0; i < values.length; ++i) {
+      let current = values[i]
+      min = Math.min(min, current)
+      max = Math.max(max, current)
+    }
+
+    suggestedMin = min
+    suggestedMax = max
   }
 }
