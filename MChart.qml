@@ -36,7 +36,11 @@ Chart {
     Line,
     Radar,
     Doughnut,
-    PolarArea
+    PolarArea,
+    Bubble,
+    Scatter,
+    Area,
+    Mixed
   }
 
   property int type: MChart.Type.Invalid
@@ -61,6 +65,20 @@ Chart {
     case MChart.Type.PolarArea:
       chartType = 'polarArea'
       break
+    case MChart.Type.Bubble:
+      chartType = 'bubble'
+      break
+    case MChart.Type.Scatter:
+      chartType = 'scatter'
+      break
+    case MChart.Type.Area:
+      chartType = 'area'
+      console.log("Area charts are not supported")
+      break
+    case MChart.Type.Mixed:
+      chartType = 'mixed'
+      console.log("Mixed charts are not supported")
+      break
     case MChart.Type.Invalid:
     default:
       console.log("Chart type is unsupported")
@@ -74,6 +92,7 @@ Chart {
   property list<MDataset> data
   property MChartOptions options: MChartOptions {
     isLinear: type === MChart.Type.Bar || type === MChart.Type.Line
+              || type === MChart.Type.Scatter || type === MChart.Type.Bubble
     hasScale: type !== MChart.Type.Pie && type !== MChart.Type.Doughnut
   }
   property var labels: []
@@ -112,9 +131,13 @@ Chart {
 
     options.min = Math.floor(min)
     options.max = Math.ceil(max)
+
+    //console.log("Type", chartType, "min", options.min, "max", options.max)
   }
 
   chartOptions: options.options
+
+  renderStrategy: Canvas.Threaded
 
   Component.onCompleted: prepareChartData()
 }

@@ -49,8 +49,16 @@ QtObject {
     let max = 0
     for (let i = 0; i < values.length; ++i) {
       let current = values[i]
-      min = Math.min(min, current)
-      max = Math.max(max, current)
+
+      if (typeof current === "object") {
+        min = Math.min(min, current.x)
+        max = Math.max(max, current.x)
+        min = Math.min(min, current.y)
+        max = Math.max(max, current.y)
+      } else {
+        min = Math.min(min, current)
+        max = Math.max(max, current)
+      }
     }
 
     suggestedMin = min

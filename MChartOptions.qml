@@ -64,6 +64,9 @@ QtObject {
               }],
   }
 
+  property int animationDuration: 500
+  property string animationEasing: 'easeOutQuart'
+
   // Objects
   property var legend: {
     "labels": {
@@ -75,12 +78,15 @@ QtObject {
 
   // general animation time
   property var animationOptions: {
-    duration: 0
+    "duration": animationDuration,
+    "easing": animationEasing,
+    "onProgress": null,
+    "onComplete": null
   }
 
   // duration of animations when hovering an item
   property var hoverOptions: {
-    animationDuration: 0
+    "animationDuration": animationDuration
   }
 
   // animation duration after a resize
