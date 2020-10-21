@@ -1,6 +1,7 @@
 import QtQuick 2.15
 
 QtObject {
+  property int type: MChart.Type.Invalid
   property string name
   property var values
   property color fillColor

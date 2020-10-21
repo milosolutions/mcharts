@@ -43,47 +43,43 @@ Chart {
     Mixed
   }
 
+  function typeToString(type) {
+    switch (type) {
+    case MChart.Type.Bar:
+      return 'bar'
+    case MChart.Type.Pie:
+      return 'pie'
+    case MChart.Type.Line:
+      return 'line'
+    case MChart.Type.Radar:
+      return 'radar'
+    case MChart.Type.Doughnut:
+      return 'doughnut'
+    case MChart.Type.PolarArea:
+      return 'polarArea'
+    case MChart.Type.Bubble:
+      return 'bubble'
+    case MChart.Type.Scatter:
+      return 'scatter'
+    case MChart.Type.Area:
+      console.log("Area charts are not supported")
+      return 'area'
+    case MChart.Type.Mixed:
+      console.log("Mixed should be specified elsewhere, see examples")
+      return 'mixed'
+    case MChart.Type.Invalid:
+    default:
+      return ''
+    }
+  }
+
   property int type: MChart.Type.Invalid
 
   onTypeChanged: {
-    switch (type) {
-    case MChart.Type.Bar:
-      chartType = 'bar'
-      break
-    case MChart.Type.Pie:
-      chartType = 'pie'
-      break
-    case MChart.Type.Line:
-      chartType = 'line'
-      break
-    case MChart.Type.Radar:
-      chartType = 'radar'
-      break
-    case MChart.Type.Doughnut:
-      chartType = 'doughnut'
-      break
-    case MChart.Type.PolarArea:
-      chartType = 'polarArea'
-      break
-    case MChart.Type.Bubble:
-      chartType = 'bubble'
-      break
-    case MChart.Type.Scatter:
-      chartType = 'scatter'
-      break
-    case MChart.Type.Area:
-      chartType = 'area'
-      console.log("Area charts are not supported")
-      break
-    case MChart.Type.Mixed:
-      chartType = 'mixed'
-      console.log("Mixed charts are not supported")
-      break
-    case MChart.Type.Invalid:
-    default:
+    chartType = typeToString(type)
+
+    if (chartType === '') {
       console.log("Chart type is unsupported")
-      chartType = ''
-      break
     }
 
     prepareChartData()
@@ -120,7 +116,8 @@ Chart {
                       data: data[i].values,
                       backgroundColor: data[i].getFillColor(),
                       borderColor: data[i].getLineColor(),
-                      pointBackgroundColor: data[i].getPointColor()
+                      pointBackgroundColor: data[i].getPointColor(),
+                      type: typeToString(data[i].type)
                     })
     }
 
