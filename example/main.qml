@@ -137,15 +137,7 @@ Window {
           values: dataProvider.getValues()
           fillColor: dataProvider.getColors()[0]
           lineColor: dataProvider.getColors()[1]
-          pointColor: dataProvider.getColors()[2]
-        },
-
-        MDataset {
-          name: "Set 2"
-          values: dataProvider.getValues2()
-          fillColor: dataProvider.getColors()[3]
-          lineColor: dataProvider.getColors()[4]
-          pointColor: dataProvider.getColors()[5]
+          pointColors: dataProvider.getColors()
         }
       ]
     }
@@ -191,20 +183,130 @@ Window {
         MDataset {
           name: "Set 1"
           values: dataProvider.getValues()
-          fillColor: dataProvider.getColors()[0]
+          fillColors: dataProvider.getColors()
           lineColor: dataProvider.getColors()[1]
           pointColor: dataProvider.getColors()[2]
+        }
+      ]
+    }
+
+    MChart {
+      id: chart7
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Bubble
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getBubbleValues()
+          fillColors: dataProvider.getColors()
+          lineColors: dataProvider.getColors()
+          pointColors: dataProvider.getColors()
         },
 
         MDataset {
           name: "Set 2"
+          values: dataProvider.getBubbleValues2()
+          fillColors: dataProvider.getColors2()
+          lineColors: dataProvider.getColors2()
+          pointColors: dataProvider.getColors2()
+        }
+      ]
+    }
+
+    MChart {
+      id: chart8
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Scatter
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getPointValues()
+          fillColors: dataProvider.getColors()
+          lineColors: dataProvider.getColors()
+          pointColors: dataProvider.getColors()
+          suggestedMin: 0
+          suggestedMax: 4
+        },
+
+        MDataset {
+          name: "Set 2"
+          values: dataProvider.getPointValues2()
+
+          fillColors: dataProvider.getColors2()
+          lineColors: dataProvider.getColors2()
+          pointColors: dataProvider.getColors2()
+          suggestedMin: 0
+          suggestedMax: 4
+        }
+      ]
+    }
+
+//    MChart {
+//      id: chart9
+
+//      Layout.fillWidth: true
+//      Layout.fillHeight: true
+
+//      type: MChart.Type.Area
+//      labels: dataProvider.getLabels()
+
+//      data: [
+//        MDataset {
+//          name: "Set 1"
+//          values: dataProvider.getValues()
+//          fillColors: dataProvider.getColors()
+//          lineColors: dataProvider.getColors()
+//          pointColors: dataProvider.getColors()
+//        },
+
+//        MDataset {
+//          name: "Set 2"
+//          values: dataProvider.getValues2()
+//          fillColors: dataProvider.getColors2()
+//          lineColors: dataProvider.getColors2()
+//          pointColors: dataProvider.getColors2()
+//        }
+//      ]
+//    }
+
+    // Mixed chart
+    MChart {
+      id: chart10
+
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+
+      type: MChart.Type.Bar
+      labels: dataProvider.getLabels()
+
+      data: [
+        MDataset {
+          name: "Set 1"
+          values: dataProvider.getValues()
+          fillColors: dataProvider.getColors()
+          lineColors: dataProvider.getColors()
+          pointColors: dataProvider.getColors()
+        },
+
+        MDataset {
+          type: MChart.Type.Line
+          name: "Set 2"
           values: dataProvider.getValues2()
-          fillColor: dataProvider.getColors()[3]
-          lineColor: dataProvider.getColors()[4]
-          pointColor: dataProvider.getColors()[5]
+          fillColor: dataProvider.getColors2()[3]
+          lineColor: dataProvider.getColors2()[4]
+          pointColors: dataProvider.getColors2()
         }
       ]
     }
   }
 }
-
