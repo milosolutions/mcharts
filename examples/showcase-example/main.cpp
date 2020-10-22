@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2017 Milo Solutions
+Copyright (C) 2020 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,49 +21,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 
 #include "dataprovider.h"
 
-/*!
- * \brief Class provides test data set for MiloCharts Demo project.
- * \class DataProvider
- */
-
-DataProvider::DataProvider(QObject *parent) :
-    QObject(parent)
-{
-}
+#include "utils/helpers.h"
+#include "utils/qmlhelpers.h"
 
 /*!
- * \brief DataProvider::getValues - returns chart values.
- * \return
- */
-QList<qreal> DataProvider::getValues() const
-{
-    return { 1.5, 2.5, 1.5, 2.5, 2.0, 1.0, 0.5 };
-}
+  Main routine. Remember to update the application name and initialise logger
+  class, if present.
+  */
+int main(int argc, char *argv[]) {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-/*!
- * \brief DataProvider::getLabels - returns chart labels.
- * \return
- */
-QStringList DataProvider::getLabels() const
-{
-    return QStringList({ "8:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00" });
-}
+    QGuiApplication app(argc, argv);
+    app.setApplicationName("charts-showcase-example");
 
-/*!
- * \brief DataProvider::getColors - returns chart colors.
- * \return
- */
-QStringList DataProvider::getColors() const
-{
-    return QStringList({ "#54bc9b",
-                         "#f58d35",
-                         "#f14946",
-                         "#8562a4",
-                         "#348faa",
-                         "#dddddd",
-                         "#c4c4c4"
-                       });
+    QQmlApplicationEngine engine;
+
+    auto qmlHelpers = new QmlHelpers(&engine);
+    engine.rootContext()->setContextProperty("qmlHelpers", qmlHelpers);
+
+    auto dataProvider = new DataProvider(&engine);
+    engine.rootContext()->setContextProperty("dataProvider", dataProvider);
+
+    engine.addImportPath("qrc:/mcharts");
+
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    CHECK(QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                           &app, [url](QObject *obj, const QUrl &objUrl) {
+              if (!obj && url == objUrl)
+              QCoreApplication::exit(-1);
+          }, Qt::QueuedConnection));
+    engine.load(url);
+
+    return app.exec();
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2017 Milo Solutions
+Copyright (C) 2020 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,115 +22,205 @@ SOFTWARE.
 *******************************************************************************/
 
 
-import QtQuick 2.0
+import QtQuick 2.15
 
-import "Chart.js" as Charts
+//import "mcharts"
 
+/*!
+ * MChart is a wrapper for Chart element, providing more useful and convenient
+ * API.
+ *
+ * Each chart needs to have:
+ * \li `type`
+ * \li `labels`
+ * \li one MDataset with `values`
+ *
+ * MChart adds some basic error reporting (`Chart.js` comes with **NO ERROR**
+ * **HANDLING** - most errors are SILENTLY ignored!), to turn it off set
+ * `silent` property to `true`.
+ *
+ * `Chart.js` requires the number of labels and values to be matching!
+ *
+ * Example static chart:
+\verbatim
+MChart {
+  id: chart
+
+  anchors.fill: parent
+
+  type: MChart.Type.Bar
+  labels: [1, 2, 3, 4, 5]
+
+      data: [
+        // Each bar in different color
+        MDataset {
+          name: "Set of values"
+          values: [1, 2, 2.1, 0.1, 0.7]
+          fillColor: "#ff0000"
+          lineColor: "#00ff00"
+          pointColor: "#0000ff"
+        }
+      ]
+    }
+\endverbatim
+ */
 Chart {
-    /*!
-     * String array used as labels in charts.
-     */
-    property var labels
-    /*!
-     * Data array used as values in charts.
-     */
-    property var values
-    /*!
-     * Color of primitives used in BAR and RADAR charts.
-     */
-    property color color
-    /*!
-     * Color arrray of primitives used in PIE, DOUGHNUT and POLAR charts.
-     */
-    property var colors
-    /*!
-     * Color used to fill space under the line in LINE chart.
-     * Default value is transparent.
-     */
-    property color fillColor: "#00ffffff"
-    /*!
-     * Color of line used in LINE chart.
-     */
-    property color strokeColor
-    /*!
-     *  Color of points used in LINE chart.
-     */
-    property color pointColor
+  id: root
 
-    /*!
-     * Converts chart data to suitable format for Bar and RADAR charts.
-     */
-    function prepareBarChartData() {
-        return {
-            labels: labels,
-            datasets: [
-                {
-                    fillColor: color,
-                    data: values
-                }
-            ]
-        }
+  /*!
+   * Chart type. Detailed documentation of each of them can be found here:
+   * https://www.chartjs.org/docs/latest/charts/
+   *
+   * \warning Area charts are not supported. Also, for Mixed type - see usage
+   * in showcase-example. The trick is to use multiple chart types instead of
+   * selecting `Mixed` type.
+   */
+  enum Type {
+    Invalid,
+    Bar,
+    Pie,
+    Line,
+    Radar,
+    Doughnut,
+    PolarArea,
+    Bubble,
+    Scatter,
+    Area,
+    Mixed
+  }
+
+  /*!
+   * Helper method which translates Type enum into string understood by
+   * Chart.js backend.
+   */
+  function typeToString(type) {
+    switch (type) {
+    case MChart.Type.Bar:
+      return 'bar'
+    case MChart.Type.Pie:
+      return 'pie'
+    case MChart.Type.Line:
+      return 'line'
+    case MChart.Type.Radar:
+      return 'radar'
+    case MChart.Type.Doughnut:
+      return 'doughnut'
+    case MChart.Type.PolarArea:
+      return 'polarArea'
+    case MChart.Type.Bubble:
+      return 'bubble'
+    case MChart.Type.Scatter:
+      return 'scatter'
+    case MChart.Type.Area:
+      console.log("Area charts are not supported")
+      return 'area'
+    case MChart.Type.Mixed:
+      console.log("Mixed should be specified elsewhere, see examples")
+      return 'mixed'
+    case MChart.Type.Invalid:
+    default:
+      return ''
+    }
+  }
+
+  /*!
+   * Holds chart type selected by user.
+   */
+  property int type: MChart.Type.Invalid
+
+  onTypeChanged: {
+    chartType = typeToString(type)
+
+    if (chartType === '') {
+      console.log("Chart type is unsupported")
     }
 
-    /*!
-     * Converts chart data to suitable format for PIE, DOUGHNUT and POLAR charts.
-     */
-    function preparePieChartData() {
-        if (labels.length !== values.length || labels.length !== colors.length) {
-            console.exception("To use Pie chart labels/values/colors should have the same size")
-            return
-        }
+    prepareChartData()
+  }
 
-        var chartData = []
-        for (var i = 0 ; i < labels.length ; ++i) {
-            chartData.push({
-                               label: labels[i],
-                               value: values[i],
-                               color: colors[i]
-                           })
-        }
-        return chartData
+  /*!
+   * Data points for the chart. Each MDataset represents a separate set of
+   * data to display. For example, in a Line chart, each MDataset will draw
+   * a different line on the chart.
+   */
+  property list<MDataset> data
+
+  /*!
+   * Used to define general options for the whole chart:
+   * \li colors
+   * \li fonts
+   * \li scale ranges
+   * \li and so on
+   */
+  property MChartOptions options: MChartOptions {
+    isLinear: type === MChart.Type.Bar || type === MChart.Type.Line
+              || type === MChart.Type.Scatter || type === MChart.Type.Bubble
+    hasScale: type !== MChart.Type.Pie && type !== MChart.Type.Doughnut
+  }
+
+  /*!
+   * Labels - these are values which populate x axis.
+   */
+  property var labels: []
+
+  /*!
+   * When set to `true`, MChart error reporting will be silenced.
+   */
+  property bool silent: false
+
+  /*!
+   * Converts chart data to suitable format for Bar and RADAR charts.
+   */
+  function prepareChartData() {
+    let labelsCount = labels.length
+    let datasets = []
+    let min = 0
+    let max = 0
+    for (let i = 0 ; i < data.length ; ++i) {
+      let valuesCount = data[i].values.length
+      if (labelsCount !== valuesCount && !silent) {
+        console.error("Number of labels", labelsCount,
+                      "does not match number of values", valuesCount)
+      }
+
+      min = Math.min(min, data[i].suggestedMin)
+      max = Math.max(max, data[i].suggestedMax)
+
+      datasets.push({
+                      label: data[i].name,
+                      data: data[i].values,
+                      backgroundColor: data[i].getFillColor(),
+                      borderColor: data[i].getLineColor(),
+                      pointBackgroundColor: data[i].getPointColor(),
+                      type: typeToString(data[i].type)
+                    })
     }
 
-    /*!
-     * Converts chart data to suitable format for LINE chart.
-     */
-    function prepareLineChartData() {
-        return {
-            labels: labels,
-            datasets: [
-                {
-                    data: values,
-                    fillColor: fillColor,
-                    strokeColor: strokeColor,
-                    pointColor: pointColor
-                }
-            ]
-        }
+    chartData = {
+      labels: labels,
+      datasets: datasets
     }
 
-    chartAnimationEasing: Easing.OutCubic
-    chartAnimationDuration: 300
+    options.min = Math.floor(min)
+    options.max = Math.ceil(max)
 
-    chartOptions: ({
-        scaleLineWidth: 2,
-        barShowStroke: false,
-        scaleFontSize: 20,
-        scaleFontFamily: "sans-serif",
-        barValueSpacing: 10,
-        scaleFontColor: "#444444"
-    })
+    requestPaint()
 
-    Component.onCompleted: {
-        if (chartType === Charts.ChartType.BAR
-                || chartType === Charts.ChartType.RADAR) {
-            chartData = prepareBarChartData()
-        } else if (chartType === Charts.ChartType.PIE
-                   || chartType === Charts.ChartType.DOUGHNUT
-                   || chartType === Charts.ChartType.POLAR) {
-            chartData = preparePieChartData()
-        } else if (chartType === Charts.ChartType.LINE) {
-            chartData = prepareLineChartData()
-        }
+    //console.log("Type", chartType, "min", options.min, "max", options.max)
+  }
+
+  chartOptions: options.options
+
+  renderStrategy: Canvas.Threaded
+
+  onDataChanged: {
+    for (let i = 0; i < data.length; ++i) {
+      // Sever any existing connection
+      data[i].updated.disconnect(prepareChartData)
+      // Establish new connection
+      data[i].updated.connect(prepareChartData)
     }
+  }
+
+  Component.onCompleted: prepareChartData()
 }

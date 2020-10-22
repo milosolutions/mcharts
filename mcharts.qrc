@@ -1,7 +1,9 @@
 <RCC>
-    <qresource prefix="/">
-        <file>Chart.qml</file>
-        <file>Chart.js</file>
+    <qresource prefix="/mcharts">
         <file>MChart.qml</file>
+        <file alias="Chart.qml">ChartJs2QML/Chart.qml</file>
+        <file alias="Chart.js">ChartJs2QML/Chart.js</file>
+        <file>MDataset.qml</file>
+        <file>MChartOptions.qml</file>
     </qresource>
 </RCC>

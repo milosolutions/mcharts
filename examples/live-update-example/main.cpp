@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2017 Milo Solutions
+Copyright (C) 2020 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,23 +21,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
-
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
 #include "dataprovider.h"
 
-int main(int argc, char *argv[])
-{
+#include "utils/helpers.h"
+#include "utils/qmlhelpers.h"
+
+/*!
+  Main routine. Remember to update the application name and initialise logger
+  class, if present.
+  */
+int main(int argc, char *argv[]) {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QGuiApplication app(argc, argv);
+    app.setApplicationName("charts-live-update-example");
 
     QQmlApplicationEngine engine;
-    DataProvider dataProvider;
-    engine.rootContext()->setContextProperty("dataProvider", &dataProvider);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+
+    auto qmlHelpers = new QmlHelpers(&engine);
+    engine.rootContext()->setContextProperty("qmlHelpers", qmlHelpers);
+
+    auto dataProvider = new DataProvider(&engine);
+    engine.rootContext()->setContextProperty("dataProvider", dataProvider);
+
+    engine.addImportPath("qrc:/mcharts");
+
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    CHECK(QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                           &app, [url](QObject *obj, const QUrl &objUrl) {
+              if (!obj && url == objUrl)
+              QCoreApplication::exit(-1);
+          }, Qt::QueuedConnection));
+    engine.load(url);
 
     return app.exec();
 }
