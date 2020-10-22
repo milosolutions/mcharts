@@ -1,5 +1,5 @@
 /*******************************************************************************
-Copyright (C) 2017 Milo Solutions
+Copyright (C) 2020 Milo Solutions
 Contact: https://www.milosolutions.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,27 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
-
-/*
-  TEMPLATE main.cpp by Milo Solutions. Copyright 2020
-*/
-
 #include <QGuiApplication>
-#include <QLoggingCategory>
-#include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
 #include "dataprovider.h"
 
-//#include "mlog/mlog.h"
-//#include "utils/tags.h"
 #include "utils/helpers.h"
 #include "utils/qmlhelpers.h"
-
-// Prepare logging categories. Modify these to your needs
-//Q_DECLARE_LOGGING_CATEGORY(core) // already declared in MLog header
-Q_LOGGING_CATEGORY(coreMain, "core.main")
 
 /*!
   Main routine. Remember to update the application name and initialise logger
