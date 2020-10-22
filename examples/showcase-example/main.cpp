@@ -36,6 +36,7 @@ SOFTWARE.
 
 //#include "mlog/mlog.h"
 //#include "utils/tags.h"
+#include "utils/helpers.h"
 #include "utils/qmlhelpers.h"
 
 // Prepare logging categories. Modify these to your needs
@@ -49,25 +50,8 @@ Q_LOGGING_CATEGORY(coreMain, "core.main")
 int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    //MLog::instance();
-    // Set up basic application data. Modify this to your needs
     QGuiApplication app(argc, argv);
-    app.setApplicationVersion(ApplicationVersion);
-    app.setOrganizationName(CompanyName);
-    app.setOrganizationDomain(CompanyDomain);
-    app.setApplicationName("chartsupdate");
-
-    // For GUI applications:
-    app.setWindowIcon(QIcon("://icon.png"));
-
-    //logger()->setLogLevel(MLog::DebugLog);
-    //logger()->enableLogToFile(app.applicationName());
-    qCInfo(coreMain) << "\nName:" << app.applicationName()
-                     << "\nOrganisation:" << app.organizationName()
-                     << "\nDomain:" << app.organizationDomain()
-                     << "\nVersion:" << app.applicationVersion()
-                     << "\nSHA:" << GitCommit
-                     << "\nBuild date:" << BuildDate;
+    app.setApplicationName("charts-showcase-example");
 
     QQmlApplicationEngine engine;
 
@@ -80,11 +64,11 @@ int main(int argc, char *argv[]) {
     engine.addImportPath("qrc:/mcharts");
 
     const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
+    CHECK(QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                           &app, [url](QObject *obj, const QUrl &objUrl) {
+              if (!obj && url == objUrl)
+              QCoreApplication::exit(-1);
+          }, Qt::QueuedConnection));
     engine.load(url);
 
     return app.exec();
