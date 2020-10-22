@@ -27,15 +27,24 @@ SOFTWARE.
 
 #include <QObject>
 
+#include <QJsonArray>
+
 class DataProvider : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit DataProvider(QObject *parent = 0);
+    explicit DataProvider(QObject *parent = nullptr);
 
     Q_INVOKABLE QList<qreal> getValues() const;
+    Q_INVOKABLE QList<qreal> getValues2() const;
+    Q_INVOKABLE QJsonArray getPointValues() const;
+    Q_INVOKABLE QJsonArray getPointValues2() const;
+    Q_INVOKABLE QJsonArray getBubbleValues() const;
+    Q_INVOKABLE QJsonArray getBubbleValues2() const;
     Q_INVOKABLE QStringList getLabels() const;
     Q_INVOKABLE QStringList getColors() const;
+    Q_INVOKABLE QStringList getColors2() const;
 };
 
 #endif // DATAPROVIDER_H

@@ -22,22 +22,70 @@ SOFTWARE.
 *******************************************************************************/
 
 
+/*
+  TEMPLATE main.cpp by Milo Solutions. Copyright 2020
+*/
+
 #include <QGuiApplication>
+#include <QLoggingCategory>
+#include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
 #include "dataprovider.h"
 
-int main(int argc, char *argv[])
-{
+//#include "mlog/mlog.h"
+//#include "utils/tags.h"
+#include "utils/qmlhelpers.h"
+
+// Prepare logging categories. Modify these to your needs
+//Q_DECLARE_LOGGING_CATEGORY(core) // already declared in MLog header
+Q_LOGGING_CATEGORY(coreMain, "core.main")
+
+/*!
+  Main routine. Remember to update the application name and initialise logger
+  class, if present.
+  */
+int main(int argc, char *argv[]) {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+    //MLog::instance();
+    // Set up basic application data. Modify this to your needs
     QGuiApplication app(argc, argv);
+    app.setApplicationVersion(ApplicationVersion);
+    app.setOrganizationName(CompanyName);
+    app.setOrganizationDomain(CompanyDomain);
+    app.setApplicationName("chartsupdate");
+
+    // For GUI applications:
+    app.setWindowIcon(QIcon("://icon.png"));
+
+    //logger()->setLogLevel(MLog::DebugLog);
+    //logger()->enableLogToFile(app.applicationName());
+    qCInfo(coreMain) << "\nName:" << app.applicationName()
+                     << "\nOrganisation:" << app.organizationName()
+                     << "\nDomain:" << app.organizationDomain()
+                     << "\nVersion:" << app.applicationVersion()
+                     << "\nSHA:" << GitCommit
+                     << "\nBuild date:" << BuildDate;
 
     QQmlApplicationEngine engine;
-    DataProvider dataProvider;
-    engine.rootContext()->setContextProperty("dataProvider", &dataProvider);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+
+    auto qmlHelpers = new QmlHelpers(&engine);
+    engine.rootContext()->setContextProperty("qmlHelpers", qmlHelpers);
+
+    auto dataProvider = new DataProvider(&engine);
+    engine.rootContext()->setContextProperty("dataProvider", dataProvider);
+
+    engine.addImportPath("qrc:/mcharts");
+
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                     &app, [url](QObject *obj, const QUrl &objUrl) {
+        if (!obj && url == objUrl)
+            QCoreApplication::exit(-1);
+    }, Qt::QueuedConnection);
+    engine.load(url);
 
     return app.exec();
 }

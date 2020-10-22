@@ -23,6 +23,7 @@ SOFTWARE.
 
 
 #include "dataprovider.h"
+#include <QJsonObject>
 
 /*!
  * \brief Class provides test data set for MiloCharts Demo project.
@@ -40,7 +41,82 @@ DataProvider::DataProvider(QObject *parent) :
  */
 QList<qreal> DataProvider::getValues() const
 {
-    return { 1.5, 2.5, 1.5, 2.5, 2.0, 1.0, 0.5 };
+    return { 1.5, 2.2, 1.1, 2.7, 2.1, 1.0, 0.5 };
+}
+
+QList<qreal> DataProvider::getValues2() const
+{
+    return { 2.5, 1.5, 2.5, 0.5, 2.3, 0.8, 1.5 };
+}
+
+QJsonArray DataProvider::getPointValues() const
+{
+    QJsonArray result;
+
+    const auto xValues = getValues();
+    const auto yValues = getValues2();
+
+    for (int i = 0; i < xValues.size(); ++i) {
+        QJsonObject object;
+        object.insert("x", xValues.at(i));
+        object.insert("y", yValues.at(i));
+        result.append(object);
+    }
+
+    return result;
+}
+
+QJsonArray DataProvider::getPointValues2() const
+{
+    QJsonArray result;
+
+    const auto xValues = getValues2();
+    const auto yValues = getValues();
+
+    for (int i = 0; i < xValues.size(); ++i) {
+        QJsonObject object;
+        object.insert("x", xValues.at(i));
+        object.insert("y", yValues.at(i));
+        result.append(object);
+    }
+
+    return result;
+}
+
+QJsonArray DataProvider::getBubbleValues() const
+{
+    QJsonArray result;
+
+    const auto xValues = getValues();
+    const auto yValues = getValues2();
+
+    for (int i = 0; i < xValues.size(); ++i) {
+        QJsonObject object;
+        object.insert("x", xValues.at(i));
+        object.insert("y", yValues.at(i));
+        object.insert("r", 5.0 / (i + 1));
+        result.append(object);
+    }
+
+    return result;
+}
+
+QJsonArray DataProvider::getBubbleValues2() const
+{
+    QJsonArray result;
+
+    const auto xValues = getValues2();
+    const auto yValues = getValues();
+
+    for (int i = 0; i < xValues.size(); ++i) {
+        QJsonObject object;
+        object.insert("x", xValues.at(i));
+        object.insert("y", yValues.at(i));
+        object.insert("r", 10.0 / (i + 1));
+        result.append(object);
+    }
+
+    return result;
 }
 
 /*!
@@ -49,7 +125,7 @@ QList<qreal> DataProvider::getValues() const
  */
 QStringList DataProvider::getLabels() const
 {
-    return QStringList({ "8:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00" });
+    return { "8:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00" };
 }
 
 /*!
@@ -58,12 +134,19 @@ QStringList DataProvider::getLabels() const
  */
 QStringList DataProvider::getColors() const
 {
-    return QStringList({ "#54bc9b",
-                         "#f58d35",
-                         "#f14946",
-                         "#8562a4",
-                         "#348faa",
-                         "#dddddd",
-                         "#c4c4c4"
-                       });
+    return { "#aa54bc9b",
+        "#aaf58d35",
+        "#aaf14946",
+        "#aa8562a4",
+        "#aa348faa",
+        "#aadddddd",
+        "#aac451e2"
+    };
+}
+
+QStringList DataProvider::getColors2() const
+{
+    QStringList colors = getColors();
+    std::reverse(colors.begin(), colors.end());
+    return colors;
 }
