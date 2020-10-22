@@ -21,30 +21,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
+import QtQuick 2.15
+import QtQuick.Window 2.2
+import QtQuick.Layouts 1.3
 
-#ifndef DATAPROVIDER_H
-#define DATAPROVIDER_H
+import "mcharts"
 
-#include <QObject>
+Window {
+  visible: true
+  width: 1000
+  height: 800
 
-#include <QJsonArray>
+  MChart {
+    id: chart
 
-class DataProvider : public QObject
-{
-    Q_OBJECT
+    anchors.fill: parent
 
-public:
-    explicit DataProvider(QObject *parent = nullptr);
+    type: MChart.Type.Line
+    labels: dataProvider.labels
+    silent: true
 
-    Q_INVOKABLE QList<qreal> getValues() const;
-    Q_INVOKABLE QList<qreal> getValues2() const;
-    Q_INVOKABLE QJsonArray getPointValues() const;
-    Q_INVOKABLE QJsonArray getPointValues2() const;
-    Q_INVOKABLE QJsonArray getBubbleValues() const;
-    Q_INVOKABLE QJsonArray getBubbleValues2() const;
-    Q_INVOKABLE QStringList getLabels() const;
-    Q_INVOKABLE QStringList getColors() const;
-    Q_INVOKABLE QStringList getColors2() const;
-};
+    data: [
+      MDataset {
+        name: "Live update set"
+        values: dataProvider.values
+        fillColor: dataProvider.getColors()[0]
+        lineColor: dataProvider.getColors()[1]
+        pointColor: dataProvider.getColors()[2]
+      },
 
-#endif // DATAPROVIDER_H
+      MDataset {
+        name: "Set 2"
+        values: [1.1, 2, 0.75, 3, 4]
+        fillColor: dataProvider.getColors()[5]
+        lineColor: dataProvider.getColors()[4]
+        pointColor: dataProvider.getColors()[3]
+      }
+    ]
+  }
+}

@@ -14,6 +14,8 @@ QtObject {
   property real suggestedMin: 0
   property real suggestedMax: 1
 
+  signal updated()
+
   function getColor(single, list) {
     if (list !== undefined && list.length > 0) {
       let htmlColors = []
@@ -64,5 +66,18 @@ QtObject {
 
     suggestedMin = min
     suggestedMax = max
+
+    updated()
   }
+
+  onTypeChanged: updated()
+  onNameChanged: updated()
+  onFillColorChanged: updated()
+  onLineColorChanged: updated()
+  onPointColorChanged: updated()
+  onFillColorsChanged: updated()
+  onLineColorsChanged: updated()
+  onPointColorsChanged: updated()
+  onSuggestedMinChanged: updated()
+  onSuggestedMaxChanged: updated()
 }

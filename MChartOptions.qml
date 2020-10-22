@@ -40,8 +40,6 @@ QtObject {
   property var linearScales: {
     "xAxes": [{
                 "ticks": {
-                  min: min,
-                  max: max,
                   fontSize: scaleFont.pointSize,
                   fontFamily: scaleFont.family,
                   fontColor: qmlHelpers.htmlColor(scaleFontColor)

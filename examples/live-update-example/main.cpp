@@ -21,30 +21,42 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
+#include <QGuiApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlContext>
 
-#ifndef DATAPROVIDER_H
-#define DATAPROVIDER_H
+#include "dataprovider.h"
 
-#include <QObject>
+#include "utils/helpers.h"
+#include "utils/qmlhelpers.h"
 
-#include <QJsonArray>
+/*!
+  Main routine. Remember to update the application name and initialise logger
+  class, if present.
+  */
+int main(int argc, char *argv[]) {
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-class DataProvider : public QObject
-{
-    Q_OBJECT
+    QGuiApplication app(argc, argv);
+    app.setApplicationName("charts-live-update-example");
 
-public:
-    explicit DataProvider(QObject *parent = nullptr);
+    QQmlApplicationEngine engine;
 
-    Q_INVOKABLE QList<qreal> getValues() const;
-    Q_INVOKABLE QList<qreal> getValues2() const;
-    Q_INVOKABLE QJsonArray getPointValues() const;
-    Q_INVOKABLE QJsonArray getPointValues2() const;
-    Q_INVOKABLE QJsonArray getBubbleValues() const;
-    Q_INVOKABLE QJsonArray getBubbleValues2() const;
-    Q_INVOKABLE QStringList getLabels() const;
-    Q_INVOKABLE QStringList getColors() const;
-    Q_INVOKABLE QStringList getColors2() const;
-};
+    auto qmlHelpers = new QmlHelpers(&engine);
+    engine.rootContext()->setContextProperty("qmlHelpers", qmlHelpers);
 
-#endif // DATAPROVIDER_H
+    auto dataProvider = new DataProvider(&engine);
+    engine.rootContext()->setContextProperty("dataProvider", dataProvider);
+
+    engine.addImportPath("qrc:/mcharts");
+
+    const QUrl url(QStringLiteral("qrc:/main.qml"));
+    CHECK(QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
+                           &app, [url](QObject *obj, const QUrl &objUrl) {
+              if (!obj && url == objUrl)
+              QCoreApplication::exit(-1);
+          }, Qt::QueuedConnection));
+    engine.load(url);
+
+    return app.exec();
+}

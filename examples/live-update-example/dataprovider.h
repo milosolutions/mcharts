@@ -21,30 +21,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 *******************************************************************************/
 
-
 #ifndef DATAPROVIDER_H
 #define DATAPROVIDER_H
 
 #include <QObject>
-
+#include <QTimer>
 #include <QJsonArray>
 
 class DataProvider : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QList<qreal> values READ values NOTIFY countChanged)
+    Q_PROPERTY(QList<int> labels READ labels NOTIFY countChanged)
+
 public:
     explicit DataProvider(QObject *parent = nullptr);
 
-    Q_INVOKABLE QList<qreal> getValues() const;
-    Q_INVOKABLE QList<qreal> getValues2() const;
-    Q_INVOKABLE QJsonArray getPointValues() const;
-    Q_INVOKABLE QJsonArray getPointValues2() const;
-    Q_INVOKABLE QJsonArray getBubbleValues() const;
-    Q_INVOKABLE QJsonArray getBubbleValues2() const;
-    Q_INVOKABLE QStringList getLabels() const;
     Q_INVOKABLE QStringList getColors() const;
-    Q_INVOKABLE QStringList getColors2() const;
+
+    QList<qreal> values() const;
+    QList<int> labels() const;
+
+signals:
+    void valuesChanged(const QList<qreal> &values) const;
+    void labelsChanged(const QList<int> &labels) const;
+    void countChanged() const;
+
+private slots:
+    void addValue();
+
+private:
+    void updateLabels();
+
+    QList<qreal> m_values;// = { 1.5, 2.2, 1.1, 2.7, 2.1, 1.0, 0.5, 2.5, 1.5,
+                          //    2.5, 0.5, 2.3, 0.8, 1.5 };
+    QList<int> m_labels;
+    QTimer m_timer;
 };
 
 #endif // DATAPROVIDER_H

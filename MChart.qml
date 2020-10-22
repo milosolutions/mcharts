@@ -93,6 +93,8 @@ Chart {
   }
   property var labels: []
 
+  property bool silent: false
+
   /*!
      * Converts chart data to suitable format for Bar and RADAR charts.
      */
@@ -103,7 +105,7 @@ Chart {
     let max = 0
     for (let i = 0 ; i < data.length ; ++i) {
       let valuesCount = data[i].values.length
-      if (labelsCount !== valuesCount) {
+      if (labelsCount !== valuesCount && !silent) {
         console.error("Number of labels", labelsCount,
                       "does not match number of values", valuesCount)
       }
@@ -129,12 +131,23 @@ Chart {
     options.min = Math.floor(min)
     options.max = Math.ceil(max)
 
+    requestPaint()
+
     //console.log("Type", chartType, "min", options.min, "max", options.max)
   }
 
   chartOptions: options.options
 
   renderStrategy: Canvas.Threaded
+
+  onDataChanged: {
+    for (let i = 0; i < data.length; ++i) {
+      // Sever any existing connection
+      data[i].updated.disconnect(prepareChartData)
+      // Establish new connection
+      data[i].updated.connect(prepareChartData)
+    }
+  }
 
   Component.onCompleted: prepareChartData()
 }
