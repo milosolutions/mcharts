@@ -26,9 +26,55 @@ import QtQuick 2.15
 
 //import "mcharts"
 
+/*!
+ * MChart is a wrapper for Chart element, providing more useful and convenient
+ * API.
+ *
+ * Each chart needs to have:
+ * \li `type`
+ * \li `labels`
+ * \li one MDataset with `values`
+ *
+ * MChart adds some basic error reporting (`Chart.js` comes with **NO ERROR**
+ * **HANDLING** - most errors are SILENTLY ignored!), to turn it off set
+ * `silent` property to `true`.
+ *
+ * `Chart.js` requires the number of labels and values to be matching!
+ *
+ * Example static chart:
+\verbatim
+MChart {
+  id: chart
+
+  anchors.fill: parent
+
+  type: MChart.Type.Bar
+  labels: [1, 2, 3, 4, 5]
+
+      data: [
+        // Each bar in different color
+        MDataset {
+          name: "Set of values"
+          values: [1, 2, 2.1, 0.1, 0.7]
+          fillColor: "#ff0000"
+          lineColor: "#00ff00"
+          pointColor: "#0000ff"
+        }
+      ]
+    }
+\endverbatim
+ */
 Chart {
   id: root
 
+  /*!
+   * Chart type. Detailed documentation of each of them can be found here:
+   * https://www.chartjs.org/docs/latest/charts/
+   *
+   * \warning Area charts are not supported. Also, for Mixed type - see usage
+   * in showcase-example. The trick is to use multiple chart types instead of
+   * selecting `Mixed` type.
+   */
   enum Type {
     Invalid,
     Bar,
@@ -43,6 +89,10 @@ Chart {
     Mixed
   }
 
+  /*!
+   * Helper method which translates Type enum into string understood by
+   * Chart.js backend.
+   */
   function typeToString(type) {
     switch (type) {
     case MChart.Type.Bar:
@@ -73,6 +123,9 @@ Chart {
     }
   }
 
+  /*!
+   * Holds chart type selected by user.
+   */
   property int type: MChart.Type.Invalid
 
   onTypeChanged: {
@@ -85,19 +138,39 @@ Chart {
     prepareChartData()
   }
 
+  /*!
+   * Data points for the chart. Each MDataset represents a separate set of
+   * data to display. For example, in a Line chart, each MDataset will draw
+   * a different line on the chart.
+   */
   property list<MDataset> data
+
+  /*!
+   * Used to define general options for the whole chart:
+   * \li colors
+   * \li fonts
+   * \li scale ranges
+   * \li and so on
+   */
   property MChartOptions options: MChartOptions {
     isLinear: type === MChart.Type.Bar || type === MChart.Type.Line
               || type === MChart.Type.Scatter || type === MChart.Type.Bubble
     hasScale: type !== MChart.Type.Pie && type !== MChart.Type.Doughnut
   }
+
+  /*!
+   * Labels - these are values which populate x axis.
+   */
   property var labels: []
 
+  /*!
+   * When set to `true`, MChart error reporting will be silenced.
+   */
   property bool silent: false
 
   /*!
-     * Converts chart data to suitable format for Bar and RADAR charts.
-     */
+   * Converts chart data to suitable format for Bar and RADAR charts.
+   */
   function prepareChartData() {
     let labelsCount = labels.length
     let datasets = []
