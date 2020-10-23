@@ -26,11 +26,13 @@ QtObject {
    */
   property var max: 1
 
+  // TITLE
+
   /*!
    * When set to `true`, chart tile will be shown. By default, title is shown
    * only when it is not empty.
    */
-  property bool displayTitle: title.length > 0
+  property bool titleDisplay: title.length > 0
 
   /*!
    * Title of the chart, displayed on top
@@ -56,12 +58,14 @@ QtObject {
    * titleFont, titleFontColor properties.
    */
   property var titleObject: {
-    "display": displayTitle,
+    "display": titleDisplay,
     "text": title,
     "fontSize": titleFont.pointSize,
     "fontFamily": titleFont.family,
     "fontColor": qmlHelpers.htmlColor(titleFontColor)
   }
+
+  // SCALE(S)
 
   /*!
    * Width of the main scale line.
@@ -81,20 +85,6 @@ QtObject {
    * Color of scale font.
    */
   property color scaleFontColor: "#0a0a0a"
-
-  /*!
-   * Font to draw legend with.
-   */
-  property font legendFont
-  legendFont {
-    pixelSize: 16
-    family: "sans-serif"
-  }
-
-  /*!
-   * Color of legend font.
-   */
-  property color legendFontColor: "#505050"
 
   /*!
    * Scales object used to define scales in radial charts.
@@ -140,6 +130,47 @@ QtObject {
               }],
   }
 
+  // LEGEND
+
+  /*!
+   * When set to `true`, chart legend will be shown. By default, title is shown.
+   */
+  property bool legendDisplay: true
+
+  /*!
+   * When set to `true`, chart legend will be reversed.
+   */
+  property bool legendReverse: false
+
+  /*!
+   * Font to draw legend with.
+   */
+  property font legendFont
+  legendFont {
+    pixelSize: 16
+    family: "sans-serif"
+  }
+
+  /*!
+   * Color of legend font.
+   */
+  property color legendFontColor: "#505050"
+
+  /*!
+   * Legend object definitions.
+   */
+  property var legendObject: {
+    "display": legendDisplay,
+    "reverse": legendReverse,
+    "labels": {
+      fontSize: legendFont.pointSize,
+      fontFamily: legendFont.family,
+      fontColor: qmlHelpers.htmlColor(legendFontColor)
+    }
+  }
+
+  // ANIMATIONS
+
   /*!
    * Duration of all chart animations.
    */
@@ -149,18 +180,6 @@ QtObject {
    * Easing used to all chart animations.
    */
   property string animationEasing: 'easeOutQuart'
-
-  // Objects
-  /*!
-   * Legend object definitions.
-   */
-  property var legendObject: {
-    "labels": {
-      fontSize: legendFont.pointSize,
-      fontFamily: legendFont.family,
-      fontColor: qmlHelpers.htmlColor(legendFontColor)
-    }
-  }
 
   /*!
    * General animation settings object.
