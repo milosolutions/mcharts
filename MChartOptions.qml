@@ -27,6 +27,43 @@ QtObject {
   property var max: 1
 
   /*!
+   * When set to `true`, chart tile will be shown. By default, title is shown
+   * only when it is not empty.
+   */
+  property bool displayTitle: title.length > 0
+
+  /*!
+   * Title of the chart, displayed on top
+   */
+  property string title
+
+  /*!
+   * Font used to draw the chart title
+   */
+  property font titleFont
+  titleFont {
+    pixelSize: 18
+    family: "sans-serif"
+  }
+
+  /*!
+   * Color used to draw the chart title
+   */
+  property color titleFontColor: "#0000bf"
+
+  /*!
+   * Chart title settings object, constructed from displayTitle, title,
+   * titleFont, titleFontColor properties.
+   */
+  property var titleObject: {
+    "display": displayTitle,
+    "text": title,
+    "fontSize": titleFont.pointSize,
+    "fontFamily": titleFont.family,
+    "fontColor": qmlHelpers.htmlColor(titleFontColor)
+  }
+
+  /*!
    * Width of the main scale line.
    */
   property int scaleLineWidth: 1
@@ -62,7 +99,7 @@ QtObject {
   /*!
    * Scales object used to define scales in radial charts.
    */
-  property var radialScales: {
+  property var radialScalesObject: {
     "angleLines": {
       display: true
     },
@@ -78,7 +115,7 @@ QtObject {
   /*!
    * Scales object used to define scales in linear charts.
    */
-  property var linearScales: {
+  property var linearScalesObject: {
     "xAxes": [{
                 "ticks": {
                   fontSize: scaleFont.pointSize,
@@ -117,7 +154,7 @@ QtObject {
   /*!
    * Legend object definitions.
    */
-  property var legend: {
+  property var legendObject: {
     "labels": {
       fontSize: legendFont.pointSize,
       fontFamily: legendFont.family,
@@ -128,7 +165,7 @@ QtObject {
   /*!
    * General animation settings object.
    */
-  property var animationOptions: {
+  property var animationOptionsObject: {
     "duration": animationDuration,
     "easing": animationEasing,
     "onProgress": null,
@@ -138,7 +175,7 @@ QtObject {
   /*!
    * Hover options object.
    */
-  property var hoverOptions: {
+  property var hoverOptionsObject: {
     "animationDuration": animationDuration
   }
 
@@ -153,11 +190,12 @@ QtObject {
   property string _optionsString:
       "{" +
       (hasScale? (_scalesString + ": "
-                  + JSON.stringify((isLinear? linearScales : radialScales)) + ",")
+                  + JSON.stringify((isLinear? linearScalesObject : radialScalesObject)) + ",")
                : "")
-      + '"legend": ' + JSON.stringify(legend) + ","
-      + '"animation": ' + JSON.stringify(animationOptions) + ","
-      + '"hover": ' + JSON.stringify(hoverOptions) + ","
+      + '"title": ' + JSON.stringify(titleObject) + ","
+      + '"legend": ' + JSON.stringify(legendObject) + ","
+      + '"animation": ' + JSON.stringify(animationOptionsObject) + ","
+      + '"hover": ' + JSON.stringify(hoverOptionsObject) + ","
       + '"responsiveAnimationDuration": ' + responsiveAnimationDuration
       + "}"
 

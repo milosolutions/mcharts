@@ -45,6 +45,8 @@ Window {
       type: MChart.Type.Bar
       labels: dataProvider.getLabels()
 
+      options.title: qsTr("A title")
+
       data: [
         // Each bar in different color
         MDataset {
