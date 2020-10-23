@@ -263,6 +263,8 @@ QtObject {
   property var paddingObject: _isSpecificPadding? _paddingSpecificObject
                                                 : _paddingGlobalObject
 
+  // RESULTING OPTIONS:
+
   /*!
    * Internal property used to construct the chart options object.
    */

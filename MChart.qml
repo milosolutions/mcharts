@@ -193,6 +193,10 @@ Chart {
                       borderColor: data[i].getLineColor(),
                       pointBackgroundColor: data[i].getPointColor(),
                       type: typeToString(data[i].type)
+                      // TODO: add all style configuration options (per chart
+                      // type!) to MDataset.
+                      // TODO: provide dataset object as property (same as
+                      // MChartOptions.options)
                     })
     }
 
