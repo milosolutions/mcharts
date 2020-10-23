@@ -203,6 +203,66 @@ QtObject {
    */
   property int responsiveAnimationDuration: 0
 
+  // LAYOUTS (padding)
+
+  /*!
+   * Global padding: setting this value will set this padding for all sides
+   * (top, bottom, left and right).
+   */
+  property int padding: 0
+
+  /*!
+   * Padding value applied from the top.
+   */
+  property int topPadding: 0
+
+  /*!
+   * Padding value applied from the left.
+   */
+  property int leftPadding: 0
+
+  /*!
+   * Padding value applied from the bottom.
+   */
+  property int bottomPadding: 0
+
+  /*!
+   * Padding value applied from the right.
+   */
+  property int rightPadding: 0
+
+  /*!
+   * Internal property, determined which padding option style to use.
+   */
+  property bool _isSpecificPadding: padding === 0
+                                    && (topPadding !== 0 || leftPadding !== 0
+                                     || bottomPadding !== 0 || rightPadding !== 0)
+
+  /*!
+   * Internal property, used to specify global padding.
+   */
+  property var _paddingGlobalObject: {
+    "padding": padding
+  }
+
+  /*!
+   * Internal property, used to specify specific padding.
+   */
+  property var _paddingSpecificObject: {
+    "padding": {
+      left: leftPadding,
+      right: rightPadding,
+      top: topPadding,
+      bottom: bottomPadding
+    }
+  }
+
+  /*!
+   * Padding object used passed to options property.
+   */
+  property var paddingObject: _isSpecificPadding? _paddingSpecificObject
+                                                : _paddingGlobalObject
+
   /*!
    * Internal property used to construct the chart options object.
    */
@@ -214,6 +274,7 @@ QtObject {
       + '"title": ' + JSON.stringify(titleObject) + ","
       + '"legend": ' + JSON.stringify(legendObject) + ","
       + '"animation": ' + JSON.stringify(animationOptionsObject) + ","
+      + '"layout": ' + JSON.stringify(paddingObject) + ","
       + '"hover": ' + JSON.stringify(hoverOptionsObject) + ","
       + '"responsiveAnimationDuration": ' + responsiveAnimationDuration
       + "}"

@@ -46,6 +46,7 @@ Window {
       labels: dataProvider.getLabels()
 
       options.title: qsTr("A title")
+      options.padding: 20
 
       data: [
         // Each bar in different color
@@ -76,6 +77,8 @@ Window {
 
       type: MChart.Type.Pie
       labels: dataProvider.getLabels()
+
+      options.leftPadding: 100
 
       data: [
         MDataset {
