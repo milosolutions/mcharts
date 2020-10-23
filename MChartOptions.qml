@@ -1,5 +1,7 @@
 import QtQuick 2.15
 
+// TODO: separate parts (title, tooltips, legend etc.) into other objects
+
 QtObject {
   /*!
    * When `true`, chart will draw its scales.
@@ -10,11 +12,6 @@ QtObject {
    * When `true`, chart will use linear scale options.
    */
   property bool isLinear: true
-
-  /*!
-   * Internal property used to construct chart options object.
-   */
-  readonly property string _scalesString: isLinear? '"scales"' : '"scale"'
 
   /*!
    * Minimum scale value.
@@ -85,6 +82,11 @@ QtObject {
    * Color of scale font.
    */
   property color scaleFontColor: "#0a0a0a"
+
+  /*!
+   * Internal property used to construct chart options object.
+   */
+  readonly property string _scalesString: isLinear? '"scales"' : '"scale"'
 
   /*!
    * Scales object used to define scales in radial charts.
@@ -263,6 +265,26 @@ QtObject {
   property var paddingObject: _isSpecificPadding? _paddingSpecificObject
                                                 : _paddingGlobalObject
 
+  // TOOLTIPS
+  // https://www.chartjs.org/docs/latest/configuration/tooltip.html
+
+  property bool tooltipsDisplay: true
+  property color tooltipsBackgrdounColor: "#000000"
+  property font tooltipsTitleFont
+  tooltipsTitleFont: {
+    pixelSize: 14
+    family: "sans-serif"
+  }
+  property color tooltipsTitleFontColor: "#ffffff"
+
+  property var tooltipsObject: {
+    "enabled": tooltipsDisplay,
+    "backgroundColor": qmlHelpers.htmlColor(tooltipsBackgrdounColor),
+    "titleFontFamily": tooltipsTitleFont.family,
+    "titleFontSize": tooltipsTitleFont.pointSize,
+    "titleFontColor": qmlHelpers.htmlColor(tooltipsTitleFontColor)
+  }
+
   // RESULTING OPTIONS:
 
   /*!
@@ -278,6 +300,7 @@ QtObject {
       + '"animation": ' + JSON.stringify(animationOptionsObject) + ","
       + '"layout": ' + JSON.stringify(paddingObject) + ","
       + '"hover": ' + JSON.stringify(hoverOptionsObject) + ","
+      + '"tooltips": ' + JSON.stringify(tooltipsObject) + ","
       + '"responsiveAnimationDuration": ' + responsiveAnimationDuration
       + "}"
 
