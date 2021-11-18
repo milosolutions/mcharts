@@ -13,7 +13,7 @@ MChart implements some simple yet meaningful and eye friendly charts to display 
 
 # How to use
 
-1. Close this repository.
+1. Clone this repository.
 2. Run `git submodule update --init --recursive` to check out and initialize
 ChartJs2QML subproject.
 3. Add `mcharts.pri` into your `qmake` project or use `add_subdirectory` to add
